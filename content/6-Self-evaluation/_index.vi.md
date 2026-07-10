@@ -6,10 +6,10 @@ chapter: false
 pre: " <b> 6. </b> "
 ---
 
-Trong suốt thời gian thực tập tại **[Tên công ty/tổ chức]** từ **[ngày bắt đầu]** đến **[ngày kết thúc]**, sinh viên thực tập đã có cơ hội học hỏi, rèn luyện và áp dụng kiến thức đã được trang bị tại trường vào môi trường làm việc thực tế.  
-Quá trình tham gia **[mô tả ngắn gọn dự án hoặc công việc chính]** đã giúp cải thiện các kỹ năng **[liệt kê kỹ năng: lập trình, phân tích, viết báo cáo, giao tiếp…]**.  
+Trong suốt thời gian thực tập tại **Công ty TNHH Amazon Web Services Việt Nam** từ **17/04/2026** đến **12/07/2026**, đã có cơ hội học hỏi, rèn luyện và áp dụng kiến thức đã được trang bị tại trường vào môi trường làm việc thực tế.  
+Quá trình tham gia xây dựng dự án **Smart Image Platform – Giải pháp AWS Serverless & Event-Driven toàn diện cho hệ thống lưu trữ và xử lý ảnh thông minh** đã giúp cải thiện các kỹ năng lập trình Spring Boot/React, phân tích thiết kế hệ thống Cloud Native, cấu hình các dịch vụ hạ tầng đám mây AWS và viết tài liệu kỹ thuật.  
 
-Về tác phong, sinh viên luôn cố gắng hoàn thành tốt nhiệm vụ, tuân thủ nội quy, và tích cực trao đổi với đồng nghiệp để nâng cao hiệu quả công việc.
+Về tác phong, luôn cố gắng hoàn thành tốt nhiệm vụ, tuân thủ nội quy, và tích cực trao đổi với đồng nghiệp để nâng cao hiệu quả công việc.
 
 Để phản ánh một cách khách quan quá trình thực tập, dưới đây là phần tự đánh giá dựa trên các tiêu chí cụ thể:
 
@@ -31,6 +31,5 @@ Về tác phong, sinh viên luôn cố gắng hoàn thành tốt nhiệm vụ, t
 
 ### Cần cải thiện
 
-* Nâng cao tính kỹ luật, chấp hành nghiêm chỉnh nội quy của công ty hoặc bất kỳ trong một tổ chức nào
 * Cải thiện trong cách tư duy giải quyết vấn đề
 * Học cách giao tiếp tốt hơn trong giao tiếp hằng ngày và trong công việc, xử lý tình huống

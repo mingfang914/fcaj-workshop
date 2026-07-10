@@ -6,117 +6,68 @@ chapter: false
 pre: " <b> 4.1. </b> "
 ---
 
-# Summary Report: “GenAI-powered App-DB Modernization workshop”
+# Summary Report: "FCAJ Sharing Session 9/5"
 
 ### Event Objectives
 
-- Share best practices in modern application design
-- Introduce Domain-Driven Design (DDD) and event-driven architecture
-- Provide guidance on selecting the right compute services
-- Present AI tools to support the development lifecycle
+- Share effective learning methodologies and behavioral psychology techniques to maintain self-study motivation and technical growth.
+- Provide guidelines on prompt optimization, token cost management, and advanced AI reasoning models.
+- Build professional work mindsets, highlighting workspace integrity and long-term career planning for IT graduates.
+- Introduce document-driven software development methodologies using the BMX model and Multi-Agent orchestration.
 
 ### Speakers
 
-- **Jignesh Shah** – Director, Open Source Databases
-- **Erica Liu** – Sr. GTM Specialist, AppMod
-- **Fabrianne Effendi** – Assc. Specialist SA, Serverless Amazon Web Services
+- **Long Huỳnh** – Cloud Engineer, Program Administrator at FCAJ
+- **Thịnh Nguyễn** – Cloud Engineer | DevOps Engineer at FCAJ
+- **Khang Nguyen** – Solution Architect at CloudKinetics
+- **Thao Nguyen Phuong** – Application Cloud Dev at VIB
 
 ### Key Highlights
 
-#### Identifying the drawbacks of legacy application architecture
+#### 1. "Brain Hack" self-learning method via Dopamine stimulation
+- Analyzed brain procrastination loops: showing that learners often prioritize instant rewards (games, social media) over long-term goals (learning).
+- Dopamine stimulation: Establishing random reward structures after every 10–15 minutes of focus to keep the brain engaged.
+- Applied behavioral psychology:
+  - *Loss Aversion:* Leveraging the fear of breaking learning streaks to build daily consistency.
+  - *2-Minute Rule & Chunking:* Decomposing large topics into ultra-small, manageable actions (like reading 1 page or creating 1 cloud account).
 
-- Long product release cycles → Lost revenue/missed opportunities  
-- Inefficient operations → Reduced productivity, higher costs  
-- Non-compliance with security regulations → Security breaches, loss of reputation  
+#### 2. Advanced Prompt Engineering and AI Resource Optimization
+- Introduced the 7-component prompt structure: Role, Instruction, Context, Input Data, Output Format, Examples, and Constraints.
+- Token Cost Management: Analyzed how LLMs tokenize text and noted that Vietnamese consumes twice the token volume of English, emphasizing the need for optimized prompts.
+- Advanced AI Reasoning: Compared Chain-of-Thought, Self-Consistency, and Tree-of-Thought reasoning patterns.
 
-#### Transitioning to modern application architecture – Microservices
+#### 3. Professional Mindset in the AI Era
+- AI as an amplifier: Analyzed recruitment scenarios where candidates leverage AI but fail to grasp the underlying code. Emphasized that core systems thinking should never be outsourced to AI.
+- The Importance of "Why": Shifting focus from just writing code (What) to understanding why a specific architecture is selected for a given business context.
+- Four Career Pillars: Balancing student goals around Experience, Network, Knowledge, and Growth.
+- Workplace Integrity: Actively investigating edge cases and learning from mistakes.
 
-Migrating to a modular system — each function is an **independent service** communicating via **events**, built on three core pillars:
+#### 4. Document-Driven Software Engineering via the BMX Method
+- Addressed the "Junk Code" problem resulting from unorganized prompts that overwhelm the LLM's Context Window.
+- Document-Driven philosophy: Managing software projects through design specifications (VOD/Architect file). When documentation is solid, the generated code has minimal bugs.
+- Multi-Agent Role Separation:
+  - *PM & Architect Agent:* Responsible for architectural design and documentation.
+  - *PO & Scrum Master Agent:* Decomposing documents into isolated User Stories.
+  - *Developer Agent:* Writing code for specific, isolated tasks.
+  - *Review Agent (QA/QC):* Running automated test loops to catch bugs before integration.
 
-- **Queue Management**: Handle asynchronous tasks  
-- **Caching Strategy**: Optimize performance  
-- **Message Handling**: Flexible inter-service communication  
+### Lessons Learned
 
-#### Domain-Driven Design (DDD)
-
-- **Four-step method**: Identify domain events → arrange timeline → identify actors → define bounded contexts  
-- **Bookstore case study**: Demonstrates real-world DDD application  
-- **Context mapping**: 7 patterns for integrating bounded contexts  
-
-#### Event-Driven Architecture
-
-- **3 integration patterns**: Publish/Subscribe, Point-to-point, Streaming  
-- **Benefits**: Loose coupling, scalability, resilience  
-- **Sync vs async comparison**: Understanding the trade-offs  
-
-#### Compute Evolution
-
-- **Shared Responsibility Model**: EC2 → ECS → Fargate → Lambda  
-- **Serverless benefits**: No server management, auto-scaling, pay-for-value  
-- **Functions vs Containers**: Criteria for appropriate choice  
-
-#### Amazon Q Developer
-
-- **SDLC automation**: From planning to maintenance  
-- **Code transformation**: Java upgrade, .NET modernization  
-- **AWS Transform agents**: VMware, Mainframe, .NET migration  
-
-### Key Takeaways
-
-#### Design Mindset
-
-- **Business-first approach**: Always start from the business domain, not the technology  
-- **Ubiquitous language**: Importance of a shared vocabulary between business and tech teams  
-- **Bounded contexts**: Identifying and managing complexity in large systems  
-
-#### Technical Architecture
-
-- **Event storming technique**: Practical method for modeling business processes  
-- Use **event-driven communication** instead of synchronous calls  
-- **Integration patterns**: When to use sync, async, pub/sub, streaming  
-- **Compute spectrum**: Criteria for choosing between VM, containers, and serverless  
-
-#### Modernization Strategy
-
-- **Phased approach**: No rushing — follow a clear roadmap  
-- **7Rs framework**: Multiple modernization paths depending on the application  
-- **ROI measurement**: Cost reduction + business agility  
+- **Self-Management:** Learned how to chunk study objectives and leverage dopamine loops to maintain research habits.
+- **Prompt Engineering:** Mastered structuring prompt constraints and managing token consumption costs.
+- **Systems Design:** Understood the necessity of thorough technical documentation before writing code.
+- **Professional Collaboration:** Realized the value of workspace integrity and team-based execution.
 
 ### Applying to Work
 
-- **Apply DDD** to current projects: Event storming sessions with business teams  
-- **Refactor microservices**: Use bounded contexts to define service boundaries  
-- **Implement event-driven patterns**: Replace some sync calls with async messaging  
-- **Adopt serverless**: Pilot AWS Lambda for suitable use cases  
-- **Try Amazon Q Developer**: Integrate into the dev workflow to boost productivity  
+- Applied the 7-component prompt structure to improve the quality of AI-generated Lambda functions in the Smart Image Platform project.
+- Implemented document-driven practices to design backend endpoints before writing any code.
+- Utilized the 2-minute rule to execute small cloud configuration tasks daily.
 
 ### Event Experience
 
-Attending the **“GenAI-powered App-DB Modernization”** workshop was extremely valuable, giving me a comprehensive view of modernizing applications and databases using advanced methods and tools. Key experiences included:
+- A highly practical sharing session covering technical details, soft skills, and career orientation.
+- Received valuable advice from industry professionals at VIB and CloudKinetics.
 
-#### Learning from highly skilled speakers
-- Experts from AWS and major tech organizations shared **best practices** in modern application design.  
-- Through real-world case studies, I gained a deeper understanding of applying **DDD** and **Event-Driven Architecture** to large projects.  
-
-#### Hands-on technical exposure
-- Participating in **event storming** sessions helped me visualize how to **model business processes** into domain events.  
-- Learned how to **split microservices** and define **bounded contexts** to manage large-system complexity.  
-- Understood trade-offs between **synchronous and asynchronous communication** and integration patterns like **pub/sub, point-to-point, streaming**.  
-
-#### Leveraging modern tools
-- Explored **Amazon Q Developer**, an AI tool for SDLC support from planning to maintenance.  
-- Learned to **automate code transformation** and pilot serverless with **AWS Lambda** to improve productivity.  
-
-#### Networking and discussions
-- The workshop offered opportunities to exchange ideas with experts, peers, and business teams, enhancing the **ubiquitous language** between business and tech.  
-- Real-world examples reinforced the importance of the **business-first approach** rather than focusing solely on technology.  
-
-#### Lessons learned
-- Applying DDD and event-driven patterns reduces **coupling** while improving **scalability** and **resilience**.  
-- Modernization requires a **phased approach** with **ROI measurement**; rushing the process can be risky.  
-- AI tools like Amazon Q Developer can significantly **boost productivity** when integrated into the current workflow.  
-
-#### Some event photos
-*Add event photos here*  
-
-> Overall, the event not only provided technical knowledge but also helped me reshape my thinking about application design, system modernization, and cross-team collaboration.
+#### Event Photos
+- Event video link: https://www.youtube.com/watch?v=4hEntEh-nm4
