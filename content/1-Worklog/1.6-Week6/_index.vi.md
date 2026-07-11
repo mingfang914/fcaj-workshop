@@ -16,10 +16,10 @@ pre: " <b> 1.6. </b> "
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
 | --- | --- | --- | --- | --- |
 | 2 | Tìm hiểu Elastic Load Balancing (ELB): Application, Network, Gateway Load Balancers. Cấu hình Target Groups và HTTP health checks. | 18/05/2026 | 18/05/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 3 | Khởi tạo một Application Load Balancer (ALB) trong Public Subnets. Trỏ ALB tới các máy chủ web chạy trong private subnets. | 19/05/2026 | 19/05/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 2 - 3 | Khởi tạo một Application Load Balancer (ALB) trong Public Subnets. Trỏ ALB tới các máy chủ web chạy trong private subnets. | 18/05/2026 | 19/05/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 4 | Tìm hiểu các thành phần của Auto Scaling: Launch Templates, cấu hình dung lượng Tối thiểu/Tối đa/Mong muốn, và chính sách co giãn. | 20/05/2026 | 20/05/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 5 | Khởi tạo một Auto Scaling Group (ASG) đứng sau ALB. Thiết lập Target Tracking Scaling Policy dựa trên chỉ số CPU sử dụng trung bình (ví dụ: 50%). | 21/05/2026 | 21/05/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 6 | Thực hành: Cài đặt Apache Web Server lên các EC2 instance mới. Sử dụng công cụ Apache Bench (`ab`) để kiểm thử giả lập tải cao, xác minh hoạt động scale-out và scale-in. | 22/05/2026 | 22/05/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 5 - 6 | Thực hành: Cài đặt Apache Web Server lên các EC2 instance mới. Sử dụng công cụ Apache Bench (`ab`) để kiểm thử giả lập tải cao, xác minh hoạt động scale-out và scale-in. | 21/05/2026 | 22/05/2026 | https://cloudjourney.awsstudygroup.com/ |
 
 ### Kết quả đạt được tuần 6:
 

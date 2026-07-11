@@ -70,4 +70,6 @@ pre: " <b> 4.1. </b> "
 - Nhận được nhiều lời khuyên sâu sắc từ các diễn giả có kinh nghiệm làm việc tại VIB và CloudKinetics.
 
 #### Thư mục hình ảnh sự kiện
-- Liên kết video sự kiện: https://www.youtube.com/watch?v=4hEntEh-nm4
+![Ảnh sự kiện](/images/4-EventParticipated/event1-1.png)
+![Ảnh sự kiện](/images/4-EventParticipated/event1-2.png)
+![Ảnh sự kiện](/images/4-EventParticipated/event1-3.png)

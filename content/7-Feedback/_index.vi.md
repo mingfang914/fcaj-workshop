@@ -31,19 +31,10 @@ Công ty có tạo điều kiện về thời gian linh hoạt khi cần thiết
 * **Điều hài lòng nhất trong thời gian thực tập?**  
   Vô cùng hài lòng khi được tiếp cận trực tiếp với môi trường AWS Cloud thực tế, tự tay thiết kế và cấu hình hạ tầng cho dự án cá nhân, đồng thời nhận được sự chỉ dẫn tận tình từ các chuyên gia (Mentors) tại AWS Việt Nam.
 
-* **Điều nghĩ công ty cần cải thiện cho các khóa sau?**  
-  Chương trình có khối lượng kiến thức rất lớn và tiến độ nhanh. Ban tổ chức có thể cân nhắc tăng thời lượng thực hành có hỗ trợ trực tiếp (guided hands-on labs) đối với các mảng dịch vụ nâng cao như VPC, IAM Roles phân quyền sâu, hoặc triển khai CI/CD trên nền tảng AWS.
-
 * **Có đề xuất chương trình này cho người khác không? Vì sao?**  
-  Chắc chắn có. Đây là một trong những chương trình thực tập công nghệ chất lượng nhất, cung cấp môi trường thực chiến lý tưởng, kết hợp hài hòa giữa Cloud Computing và Generative AI (các mô hình Bedrock/Agents).
+  Chắc chắn có. Đây là một trong những chương trình thực tập công nghệ chất lượng nhất, cung cấp môi trường thực chiến lý tưởng.
 
 ### Đề xuất & mong muốn
-
-* **Đề xuất cải thiện trải nghiệm:**  
-  Tổ chức thêm các hoạt động giao lưu trực tiếp (offline networking) hoặc các buổi chia sẻ định hướng nghề nghiệp (career path talks) giữa các thành viên thực tập và các kỹ sư chính thức của AWS.
-
-* **Mong muốn tiếp tục chương trình:**  
-  Rất mong muốn được tiếp tục đồng hành và hỗ trợ cộng đồng First Cloud AI Journey trong tương lai, có thể tham gia chia sẻ kinh nghiệm cho các thế hệ học viên tiếp theo.
 
 * **Góp ý khác (tự do chia sẻ):**  
   Xin gửi lời cảm ơn sâu sắc nhất đến đội ngũ Mentor và Ban quản trị chương trình First Cloud AI Journey đã tận tâm hỗ trợ và tạo mọi điều kiện tốt nhất để hoàn thành kỳ thực tập thành công.

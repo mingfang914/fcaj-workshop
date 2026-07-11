@@ -15,10 +15,10 @@ pre: " <b> 1.9. </b> "
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
 | --- | --- | --- | --- | --- |
 | 2 | Nghiên cứu tài liệu nghiệp vụ dự án Smart Image Platform và vẽ sơ đồ kiến trúc hệ thống Serverless. | 08/06/2026 | 08/06/2026 |  |
-| 3 | Thiết kế cơ sở dữ liệu Single-Table cho DynamoDB (Composite keys: PK = USER#<id>, SK = IMG#<timestamp>#<ulid>) để tối ưu hóa hiệu năng truy vấn. | 09/06/2026 | 09/06/2026 |  |
+| 3 - 4 | Thiết kế cơ sở dữ liệu Single-Table cho DynamoDB (Composite keys: PK = USER#<id>, SK = IMG#<timestamp>#<ulid>) để tối ưu hóa hiệu năng truy vấn. | 09/06/2026 | 10/06/2026 |  |
 | 4 | Tạo các S3 buckets raw và processed trên Console, thiết lập chính sách Block All Public Access bảo mật. | 10/06/2026 | 10/06/2026 |  |
 | 5 | Khởi tạo các bảng chính của hệ thống: SmartImage-Images, SmartImage-UserQuotas, và SmartImage-UserProfiles trên Console ở chế độ On-demand. | 11/06/2026 | 11/06/2026 |  |
-| 6 | Thực hành: Cấu hình các chỉ mục phụ toàn cục (GSI1-TagIndex-v2, GSI2-ModerationIndex) với các thuộc tính chiếu cần thiết để giảm tải RCU. | 12/06/2026 | 12/06/2026 |  |
+| 5 - 6 | Thực hành: Cấu hình các chỉ mục phụ toàn cục (GSI1-TagIndex-v2, GSI2-ModerationIndex) với các thuộc tính chiếu cần thiết để giảm tải RCU. | 11/06/2026 | 12/06/2026 |  |
 
 ### Kết quả đạt được tuần 9:
 

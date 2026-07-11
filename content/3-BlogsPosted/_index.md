@@ -6,8 +6,6 @@ chapter: false
 pre: " <b> 3. </b> "
 ---
 
-This section will list and introduce the blogs posted to [AWS Study Group](https://www.facebook.com/groups/awsstudygroupfcj). For example:
-
 ###  [Blog 1 - EFFICIENT IMAGE OPTIMIZATION WITH AMAZON CLOUDFRONT AND AWS LAMBDA](3.1-Blog1/)
 This blog introduces a serverless image optimization solution combining Amazon CloudFront, AWS Lambda, and Amazon S3. By storing only a high-quality original image and automatically resizing and converting formats on-the-fly based on user requests, the system accelerates page load speeds, improves user experience, and minimizes storage costs.
 

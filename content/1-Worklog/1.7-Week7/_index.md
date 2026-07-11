@@ -17,7 +17,7 @@ pre: " <b> 1.7. </b> "
 | --- | --- | --- | --- | --- |
 | 2 | Study Amazon CloudWatch: metrics, namespaces, dimensions, and resolutions. | 05/25/2026 | 05/25/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 3 | Configure CloudWatch Alarms to monitor EC2 CPU utilization (>80%) and system status checks. | 05/26/2026 | 05/26/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 4 | Create Amazon SNS Topics and subscribe email endpoints. Link Alarms to SNS Topics to trigger email alerts delivery. | 05/27/2026 | 05/27/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 3 - 4 | Create Amazon SNS Topics and subscribe email endpoints. Link Alarms to SNS Topics to trigger email alerts delivery. | 05/26/2026 | 05/27/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 5 | Study CloudWatch Logs. Install and configure the CloudWatch Agent on EC2 to push system and application logs. | 05/28/2026 | 05/28/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 6 | Practice: Set up an AWS Billing Alarm to monitor cost thresholds and build a unified CloudWatch performance Dashboard. | 05/29/2026 | 05/29/2026 | https://cloudjourney.awsstudygroup.com/ |
 

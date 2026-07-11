@@ -16,8 +16,8 @@ pre: " <b> 1.12. </b> "
 | Day | Task | Start Date | Completion Date | Reference Material |
 | --- | --- | --- | --- | --- |
 | 2 | Connect the GitHub repository branch to AWS Amplify Hosting and configure the build template `amplify.yml`. | 06/29/2026 | 06/29/2026 |  |
-| 3 | Set up environment variables (Cognito client and user pool details, API URL) in Amplify and trigger deployment. | 06/30/2026 | 06/30/2026 |  |
-| 4 | Perform E2E tests: register user, verify login, upload files via S3 Presigned URL, check thumbnail generation, and verify AI tags. | 07/01/2026 | 07/01/2026 |  |
+| 2 - 3 | Set up environment variables (Cognito client and user pool details, API URL) in Amplify and trigger deployment. | 06/29/2026 | 06/30/2026 |  |
+| 4 - 5 | Perform E2E tests: register user, verify login, upload files via S3 Presigned URL, check thumbnail generation, and verify AI tags. | 07/01/2026 | 07/02/2026 |  |
 | 5 | Test system failure by uploading unsupported files, inspect error logs in CloudWatch Logs, check Dashboard metrics, and verify SNS email notifications. | 07/02/2026 | 07/02/2026 |  |
 | 6 | Practice: Empty S3 buckets and run `cdk destroy --all` to tear down all provisioned resources and prevent extra charges. | 07/03/2026 | 07/03/2026 |  |
 

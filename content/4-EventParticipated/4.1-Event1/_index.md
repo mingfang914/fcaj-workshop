@@ -70,4 +70,6 @@ pre: " <b> 4.1. </b> "
 - Received valuable advice from industry professionals at VIB and CloudKinetics.
 
 #### Event Photos
-- Event video link: https://www.youtube.com/watch?v=4hEntEh-nm4
+![Event photos](/images/4-EventParticipated/event1-1.png)
+![Event photos](/images/4-EventParticipated/event1-2.png)
+![Event photos](/images/4-EventParticipated/event1-3.png)

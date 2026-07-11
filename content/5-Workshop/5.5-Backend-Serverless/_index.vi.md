@@ -207,7 +207,7 @@ Sau khi đã tạo xong các chính sách phân quyền ở Bước 1, tiến h�
 2. Chọn **Create function**.
 3. Trong biểu mẫu tạo hàm:
    * Chọn **Author from scratch**.
-   * **Runtime:** Chọn `Node.js 20.x` (hoặc phiên bản Node khác tương thích với dự án).
+   * **Runtime:** Chọn `Node.js 22.x` (hoặc phiên bản Node mới hơn tương thích với dự án).
    * Cuộn xuống mục **Custom settings** -> nhấp chuột để mở rộng phần **Additional settings**.
    * Bên dưới mục **General** bên trong Additional settings:
      * Gạt nút **ARM64 architecture** sang **On** (để sử dụng chip ARM64/Graviton2 giúp tối ưu chi phí và tăng tốc độ xử lý).

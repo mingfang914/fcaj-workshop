@@ -15,10 +15,10 @@ pre: " <b> 1.11. </b> "
 ### Tasks to be carried out this week:
 | Day | Task | Start Date | Completion Date | Reference Material |
 | --- | --- | --- | --- | --- |
-| 2 | Deploy Lambda functions (`ApiHandler`, `ImageProcessor`, `AIAnalyzer`) using ARM64 architecture and attach execution roles. | 06/22/2026 | 06/22/2026 |  |
-| 3 | Zip and upload deployment packages, and configure environment variables connecting to tables and S3 buckets. | 06/23/2026 | 06/23/2026 |  |
-| 4 | Configure S3 Event Notifications to trigger `ImageProcessor` (prefix filter: `users/`) and enable DynamoDB stream triggers for `AIAnalyzer` (batch size: 1). | 06/24/2026 | 06/24/2026 |  |
-| 5 | Create REST API `SmartImage-API` in API Gateway and configure the Cognito Authorizer. | 06/25/2026 | 06/25/2026 |  |
+| 2 | Deploy Lambda functions (`ApiHandler`, `ImageProcessor`, `AIAnalyzer`) using Node.js 22.x runtime, ARM64 architecture, and attach execution roles. | 06/22/2026 | 06/22/2026 |  |
+| 3 - 5 | Zip and upload deployment packages (including sharp for image resizing and AWS SDK modules), and configure environment variables connecting to tables and S3 buckets. | 06/23/2026 | 06/25/2026 |  |
+| 5 | Configure S3 Event Notifications to trigger `ImageProcessor` (prefix filter: `users/`) and enable DynamoDB stream triggers for `AIAnalyzer` (batch size: 1). | 06/25/2026 | 06/25/2026 |  |
+| 6 | Create REST API `SmartImage-API` in API Gateway and configure the Cognito Authorizer. | 06/26/2026 | 06/26/2026 |  |
 | 6 | Practice: Create proxy resource `{proxy+}` with CORS, configure ANY method integration to `ApiHandler` via proxy, and deploy to stage `dev`. | 06/26/2026 | 06/26/2026 |  |
 
 ### Week 11 Achievements:

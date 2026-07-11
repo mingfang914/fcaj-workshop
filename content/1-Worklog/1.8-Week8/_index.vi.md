@@ -16,10 +16,10 @@ pre: " <b> 1.8. </b> "
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
 | --- | --- | --- | --- | --- |
 | 2 | Tìm hiểu mô hình Serverless: Ưu điểm, giới hạn tài nguyên của AWS Lambda, và mô hình tính giá pay-as-you-go. | 01/06/2026 | 01/06/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 3 | Viết một hàm Lambda cơ bản bằng Node.js. Cấu hình IAM Role gán quyền cho phép Lambda đọc tệp tin từ S3. | 02/06/2026 | 02/06/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 2 - 3 | Viết một hàm Lambda cơ bản bằng Node.js (phiên bản 22.x hoặc 24.x). Cấu hình IAM Role gán quyền cho phép Lambda đọc tệp tin từ S3. | 01/06/2026 | 02/06/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 4 | Thiết lập S3 Event Notification trên một bucket nguồn để tự động gọi hàm Lambda xử lý mỗi khi có tệp tin tải lên. | 03/06/2026 | 03/06/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 5 | Tìm hiểu Amazon API Gateway: REST vs HTTP APIs, các khái niệm Resources, HTTP Methods (GET, POST), Stages và Deployments. | 04/06/2026 | 04/06/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 6 | Thực hành: Tạo một REST API trên API Gateway, cấu hình method GET tích hợp với Lambda và triển khai lên Stage `dev` để kiểm tra bằng curl. | 05/06/2026 | 05/06/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 5 - 6 | Thực hành: Tạo một REST API trên API Gateway, cấu hình method GET tích hợp với Lambda và triển khai lên Stage `dev` để kiểm tra bằng curl. | 04/06/2026 | 05/06/2026 | https://cloudjourney.awsstudygroup.com/ |
 
 ### Kết quả đạt được tuần 8:
 

@@ -60,4 +60,6 @@ pre: " <b> 4.3. </b> "
 - Career path sharing from senior DevOps, Data, and AI engineers provided clear guidance for subsequent professional growth.
 
 #### Event Photos
-- Photos link: https://drive.google.com/drive/folders/1XYe3c3jX0F432hyQiCZBOGF2dDlIEwB4
+![Event photos](/images/4-EventParticipated/event3-1.png)
+![Event photos](/images/4-EventParticipated/event3-2.png)
+![Event photos](/images/4-EventParticipated/event3-3.png)

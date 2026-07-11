@@ -15,10 +15,10 @@ pre: " <b> 1.11. </b> "
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
 | --- | --- | --- | --- | --- |
-| 2 | Khởi tạo các hàm Lambda (`ApiHandler`, `ImageProcessor`, `AIAnalyzer`) trên Console, chọn kiến trúc ARM64 và gán các vai trò thực thi tương ứng. | 22/06/2026 | 22/06/2026 |  |
-| 3 | Nén và tải lên các gói mã nguồn, thiết lập các biến môi trường kết nối tới các bảng DynamoDB và S3 buckets. | 23/06/2026 | 23/06/2026 |  |
-| 4 | Cấu hình S3 Event Notification kích hoạt `ImageProcessor` (lọc prefix `users/`) và cấu hình DynamoDB Stream kích hoạt `AIAnalyzer` (batch size: 1). | 24/06/2026 | 24/06/2026 |  |
-| 5 | Khởi tạo REST API `SmartImage-API` và cấu hình bộ Cognito Authorizer bảo mật. | 25/06/2026 | 25/06/2026 |  |
+| 2 | Khởi tạo các hàm Lambda (`ApiHandler`, `ImageProcessor`, `AIAnalyzer`) trên Console, chọn runtime Node.js 22.x, kiến trúc ARM64 và gán các vai trò thực thi tương ứng. | 22/06/2026 | 22/06/2026 |  |
+| 3 - 5 | Nén và tải lên các gói mã nguồn (bao gồm sharp cho xử lý ảnh và AWS SDK), thiết lập các biến môi trường kết nối tới các bảng DynamoDB và S3 buckets. | 23/06/2026 | 25/06/2026 |  |
+| 5 | Cấu hình S3 Event Notification kích hoạt `ImageProcessor` (lọc prefix `users/`) và cấu hình DynamoDB Stream kích hoạt `AIAnalyzer` (batch size: 1). | 25/06/2026 | 25/06/2026 |  |
+| 6 | Khởi tạo REST API `SmartImage-API` và cấu hình bộ Cognito Authorizer bảo mật. | 26/06/2026 | 26/06/2026 |  |
 | 6 | Thực hành: Tạo resource proxy `{proxy+}` có bật CORS, thiết lập method ANY tích hợp proxy tới `ApiHandler` và deploy lên stage `dev`. | 26/06/2026 | 26/06/2026 |  |
 
 ### Kết quả đạt được tuần 11:

@@ -16,8 +16,8 @@ pre: " <b> 1.5. </b> "
 | Day | Task | Start Date | Completion Date | Reference Material |
 | --- | --- | --- | --- | --- |
 | 2 | Study Amazon RDS: Database engine types, Multi-AZ deployments for high availability, and Read Replicas. | 05/11/2026 | 05/11/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 3 | Launch an Amazon RDS MySQL instance in private subnets. Configure DB Subnet Groups and Security Groups to restrict access. | 05/12/2026 | 05/12/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 4 | Connect to RDS MySQL from an EC2 instance to test queries. Perform a reboot with failover to evaluate Multi-AZ failover duration. | 05/13/2026 | 05/13/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 3 | Launch an Amazon RDS MySQL instance in private subnets. Configure DB Subnet Groups and Security Groups to restrict access. | 05/11/2026 | 05/12/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 4 | Connect to RDS MySQL from an EC2 instance to test queries. Perform a reboot with failover to evaluate Multi-AZ failover duration. | 05/13/2026 | 05/14/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 5 | Study Amazon DynamoDB NoSQL: Partition Keys (PK), Sort Keys (SK), Global Secondary Indexes (GSI), and Local Secondary Indexes (LSI). | 05/14/2026 | 05/14/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 6 | Practice: Create a DynamoDB table on the console and perform basic CRUD operations using PartiQL and AWS CLI. | 05/15/2026 | 05/15/2026 | https://cloudjourney.awsstudygroup.com/ |
 

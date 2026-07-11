@@ -16,10 +16,10 @@ pre: " <b> 1.6. </b> "
 | Day | Task | Start Date | Completion Date | Reference Material |
 | --- | --- | --- | --- | --- |
 | 2 | Study Elastic Load Balancing (ELB) types: ALB, NLB, GLB. Configure Target Groups and HTTP health checks. | 05/18/2026 | 05/18/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 3 | Deploy an Application Load Balancer (ALB) in Public Subnets. Route HTTP requests to web servers running in Private Subnets. | 05/19/2026 | 05/19/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 2 - 3 | Deploy an Application Load Balancer (ALB) in Public Subnets. Route HTTP requests to web servers running in Private Subnets. | 05/18/2026 | 05/19/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 4 | Study Auto Scaling components: Launch Templates, Minimum/Maximum/Desired capacity settings, and cooldown periods. | 05/20/2026 | 05/20/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 5 | Configure an Auto Scaling Group (ASG) behind the ALB. Set up a Target Tracking Scaling Policy targeting Average CPU Utilization (e.g., 50%). | 05/21/2026 | 05/21/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 6 | Practice: Install Apache on EC2 instances. Run an Apache Bench (`ab`) load test to artificially spike CPU, validating automated scale-out and scale-in. | 05/22/2026 | 05/22/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 5 - 6 | Practice: Install Apache on EC2 instances. Run an Apache Bench (`ab`) load test to artificially spike CPU, validating automated scale-out and scale-in. | 05/21/2026 | 05/22/2026 | https://cloudjourney.awsstudygroup.com/ |
 
 ### Week 6 Achievements:
 

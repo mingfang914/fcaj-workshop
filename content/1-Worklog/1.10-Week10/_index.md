@@ -15,9 +15,9 @@ pre: " <b> 1.10. </b> "
 ### Tasks to be carried out this week:
 | Day | Task | Start Date | Completion Date | Reference Material |
 | --- | --- | --- | --- | --- |
-| 2 | Create Amazon Cognito User Pool with an SPA Web Client (no secret) using the quick-setup wizard. | 06/15/2026 | 06/15/2026 |  |
-| 3 | Configure custom attribute `custom:role` and create user groups (`admin`, `user`) in Cognito. | 06/16/2026 | 06/16/2026 |  |
-| 4 | Analyze Lambda backend permission requirements for S3, DynamoDB, and Cognito, designing JSON permission blocks. | 06/17/2026 | 06/17/2026 |  |
+| 2 | Create Amazon Cognito User Pool with an SPA Web Client (no secret) using the revamped Cognito Console (Lite/Essentials/Plus tiers and Onboarding Wizard). | 06/15/2026 | 06/15/2026 |  |
+| 2 - 3 | Configure custom attribute `custom:role` and create user groups (`admin`, `user`) in Cognito. | 06/15/2026 | 06/16/2026 |  |
+| 4 - 5 | Analyze Lambda backend permission requirements for S3, DynamoDB, and Cognito, designing JSON permission blocks. | 06/17/2026 | 06/18/2026 |  |
 | 5 | Create the custom IAM Policies (`SmartImage-ApiHandler-Policy`, `SmartImage-ImageProcessor-Policy`, `SmartImage-AIAnalyzer-Policy`) under Access Management. | 06/18/2026 | 06/18/2026 |  |
 | 6 | Practice: Create Lambda execution roles and attach the respective custom policies to finalize authorization setups. | 06/19/2026 | 06/19/2026 |  |
 

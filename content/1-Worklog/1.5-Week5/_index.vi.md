@@ -16,8 +16,8 @@ pre: " <b> 1.5. </b> "
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
 | --- | --- | --- | --- | --- |
 | 2 | Tìm hiểu Amazon RDS: Các công cụ DB, mô hình hoạt động Multi-AZ để tăng độ sẵn sàng, và cơ chế Read Replicas. | 11/05/2026 | 11/05/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 3 | Khởi tạo một DB instance RDS MySQL trong Private Subnet. Thiết lập DB Subnet Groups và cấu hình Security Groups giới hạn truy cập từ EC2. | 12/05/2026 | 12/05/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 4 | Kết nối và chạy truy vấn thử nghiệm trên RDS MySQL từ máy chủ EC2. Thực hiện kiểm thử tính năng Reboot with failover để xem cơ chế chuyển đổi máy chủ của Multi-AZ. | 13/05/2026 | 13/05/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 3 | Khởi tạo một DB instance RDS MySQL trong Private Subnet. Thiết lập DB Subnet Groups và cấu hình Security Groups giới hạn truy cập từ EC2. | 11/05/2026 | 12/05/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 4 | Kết nối và chạy truy vấn thử nghiệm trên RDS MySQL từ máy chủ EC2. Thực hiện kiểm thử tính năng Reboot with failover để xem cơ chế chuyển đổi máy chủ của Multi-AZ. | 13/05/2026 | 14/05/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 5 | Tìm hiểu Amazon DynamoDB NoSQL: Khóa phân vùng (Partition Key - PK), Khóa sắp xếp (Sort Key - SK), chỉ mục phụ toàn cục (GSI) và chỉ mục phụ cục bộ (LSI). | 14/05/2026 | 14/05/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 6 | Thực hành: Tạo một bảng DynamoDB trên Console và thực hành chạy các lệnh CRUD cơ bản bằng cú pháp PartiQL và AWS CLI. | 15/05/2026 | 15/05/2026 | https://cloudjourney.awsstudygroup.com/ |
 

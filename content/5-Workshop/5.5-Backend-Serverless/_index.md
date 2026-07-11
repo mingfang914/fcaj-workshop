@@ -207,7 +207,7 @@ Now we will create the execution roles and attach the custom policies created in
 2. Click **Create function**.
 3. In the creation wizard:
    * Select **Author from scratch**.
-   * **Runtime:** Select `Node.js 20.x` (or another Node version compatible with the backend).
+   * **Runtime:** Select `Node.js 22.x` (or another newer Node version compatible with the backend).
    * Scroll down to **Custom settings** -> click to expand **Additional settings**.
    * Under the **General** section inside Additional settings:
      * Toggle **ARM64 architecture** to **On** (enables Graviton2 for better cost performance).

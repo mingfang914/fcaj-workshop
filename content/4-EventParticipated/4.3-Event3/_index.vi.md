@@ -60,4 +60,6 @@ pre: " <b> 4.3. </b> "
 - Các bài chia sẻ định hướng nghề nghiệp từ các anh đi trước (DevOps, Data, AI Partner) tiếp thêm động lực học tập và định hướng nghề nghiệp rõ ràng cho giai đoạn sắp tới.
 
 #### Thư mục hình ảnh sự kiện
-- Liên kết thư mục ảnh: https://drive.google.com/drive/folders/1XYe3c3jX0F432hyQiCZBOGF2dDlIEwB4
+![Ảnh sự kiện](/images/4-EventParticipated/event3-1.png)
+![Ảnh sự kiện](/images/4-EventParticipated/event3-2.png)
+![Ảnh sự kiện](/images/4-EventParticipated/event3-3.png)

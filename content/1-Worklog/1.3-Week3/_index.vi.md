@@ -15,9 +15,9 @@ pre: " <b> 1.3. </b> "
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
 | --- | --- | --- | --- | --- |
 | 2 | Tìm hiểu Amazon S3: Các lớp lưu trữ (Standard, IA, Glacier), cách tải lên/tải xuống và quản lý siêu dữ liệu (metadata) của đối tượng. | 27/04/2026 | 27/04/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 3 | Cấu hình tính năng S3 Bucket Versioning để lưu trữ các phiên bản tệp. Thiết lập quy tắc vòng đời (Lifecycle Rules) tự động chuyển tệp cũ sang Glacier và cấu hình nhân bản chéo vùng (CRR). | 28/04/2026 | 28/04/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 4 | Cấu hình tính năng S3 static website hosting để chạy trang web tĩnh. Thiết lập bucket policy cho phép đọc công khai (public read access). | 29/04/2026 | 29/04/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 5 | Tìm hiểu Amazon CloudFront CDN: các Edge locations, cơ chế lưu bộ nhớ đệm (caching), quản lý TTL và bảo mật HTTPS sử dụng AWS Certificate Manager (ACM). | 30/04/2026 | 30/04/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 3 - 4 | Cấu hình tính năng S3 Bucket Versioning để lưu trữ các phiên bản tệp. Thiết lập quy tắc vòng đời (Lifecycle Rules) tự động chuyển tệp cũ sang Glacier và cấu hình nhân bản chéo vùng (CRR). | 28/04/2026 | 29/04/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 5 | Cấu hình tính năng S3 static website hosting để chạy trang web tĩnh. Thiết lập bucket policy cho phép đọc công khai (public read access). | 30/04/2026 | 30/04/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 5 - 6 | Tìm hiểu Amazon CloudFront CDN: các Edge locations, cơ chế lưu bộ nhớ đệm (caching), quản lý TTL và bảo mật HTTPS sử dụng AWS Certificate Manager (ACM). | 30/04/2026 | 01/05/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 6 | Thực hành: Hosting một website tĩnh lên S3, tích hợp với CloudFront CDN sử dụng OAC (Origin Access Control) để chặn các truy cập trực tiếp từ Internet vào S3. | 01/05/2026 | 01/05/2026 | https://cloudjourney.awsstudygroup.com/ |
 
 ### Kết quả đạt được tuần 3:

@@ -17,7 +17,7 @@ pre: " <b> 1.7. </b> "
 | --- | --- | --- | --- | --- |
 | 2 | Tìm hiểu Amazon CloudWatch: các Metrics, Namespaces, Dimensions và Resolution. | 25/05/2026 | 25/05/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 3 | Cấu hình CloudWatch Alarms để giám sát các ngưỡng CPU của EC2 (>80%) và trạng thái lỗi hệ thống. | 26/05/2026 | 26/05/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 4 | Khởi tạo các Amazon SNS Topics và đăng ký nhận mail cho địa chỉ email quản trị. Liên kết SNS với CloudWatch Alarm để tự động gửi thông báo. | 27/05/2026 | 27/05/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 3 - 4 | Khởi tạo các Amazon SNS Topics và đăng ký nhận mail cho địa chỉ email quản trị. Liên kết SNS với CloudWatch Alarm để tự động gửi thông báo. | 26/05/2026 | 27/05/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 5 | Tìm hiểu CloudWatch Logs. Cài đặt và cấu hình CloudWatch Agent trên máy chủ EC2 để đẩy logs hệ điều hành và ứng dụng lên Cloud. | 28/05/2026 | 28/05/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 6 | Thực hành: Tạo một Billing Alarm cảnh báo chi phí tài khoản và thiết kế một CloudWatch Dashboard hiển thị biểu đồ hiệu năng EC2 và ALB. | 29/05/2026 | 29/05/2026 | https://cloudjourney.awsstudygroup.com/ |
 

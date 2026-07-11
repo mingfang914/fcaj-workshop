@@ -72,4 +72,6 @@ pre: " <b> 4.2. </b> "
 - Tạo cơ hội trao đổi trực tiếp với các chuyên gia Platform, DevOps và AI thực chiến tại các doanh nghiệp lớn.
 
 #### Thư mục hình ảnh sự kiện
-- Liên kết thư mục ảnh: https://drive.google.com/drive/folders/1KF14Za3sMxDnap0HFEL-TcsTdsuGpovr
+![Ảnh sự kiện](/images/4-EventParticipated/event2-1.png)
+![Ảnh sự kiện](/images/4-EventParticipated/event2-2.png)
+![Ảnh sự kiện](/images/4-EventParticipated/event2-3.png)

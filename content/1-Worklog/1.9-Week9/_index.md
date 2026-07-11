@@ -15,10 +15,10 @@ pre: " <b> 1.9. </b> "
 | Day | Task | Start Date | Completion Date | Reference Material |
 | --- | --- | --- | --- | --- |
 | 2 | Analyze the Smart Image Platform requirements and compile the serverless solution architecture diagram. | 06/08/2026 | 06/08/2026 |  |
-| 3 | Design the DynamoDB Single-Table schema (Composite keys: PK = USER#<id>, SK = IMG#<timestamp>#<ulid>) for optimal queries. | 06/09/2026 | 06/09/2026 |  |
+| 3 - 4 | Design the DynamoDB Single-Table schema (Composite keys: PK = USER#<id>, SK = IMG#<timestamp>#<ulid>) for optimal queries. | 06/09/2026 | 06/10/2026 |  |
 | 4 | Create S3 raw and processed buckets on the console with Block All Public Access enabled. | 06/10/2026 | 06/10/2026 |  |
 | 5 | Provision the main DynamoDB tables: SmartImage-Images, SmartImage-UserQuotas, and SmartImage-UserProfiles in On-demand capacity mode. | 06/11/2026 | 06/11/2026 |  |
-| 6 | Practice: Configure GSIs (GSI1-TagIndex-v2, GSI2-ModerationIndex) with projected attributes to optimize query read capacity. | 06/12/2026 | 06/12/2026 |  |
+| 5 - 6 | Practice: Configure GSIs (GSI1-TagIndex-v2, GSI2-ModerationIndex) with projected attributes to optimize query read capacity. | 06/11/2026 | 06/12/2026 |  |
 
 ### Week 9 Achievements:
 

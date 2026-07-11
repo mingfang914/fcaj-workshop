@@ -72,4 +72,6 @@ pre: " <b> 4.2. </b> "
 - Provided a valuable forum to engage with DevOps, Platform, and AI engineers working at scale.
 
 #### Event Photos
-- Photos link: https://drive.google.com/drive/folders/1KF14Za3sMxDnap0HFEL-TcsTdsuGpovr
+![Event photos](/images/4-EventParticipated/event2-1.png)
+![Event photos](/images/4-EventParticipated/event2-2.png)
+![Event photos](/images/4-EventParticipated/event2-3.png)

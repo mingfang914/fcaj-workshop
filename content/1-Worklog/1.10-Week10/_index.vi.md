@@ -15,9 +15,9 @@ pre: " <b> 1.10. </b> "
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
 | --- | --- | --- | --- | --- |
-| 2 | Tạo Amazon Cognito User Pool và SPA Web Client (tắt client secret) sử dụng trình hướng dẫn nhanh. | 15/06/2026 | 15/06/2026 |  |
-| 3 | Cấu hình thuộc tính tùy biến `custom:role` và tạo các nhóm quản trị (`admin`, `user`) trong Cognito. | 16/06/2026 | 16/06/2026 |  |
-| 4 | Phân tích quyền hạn của các hàm backend đối với S3, DynamoDB, Cognito. Thiết kế các khối quyền JSON tương ứng. | 17/06/2026 | 17/06/2026 |  |
+| 2 | Tạo Amazon Cognito User Pool và SPA Web Client (tắt client secret) sử dụng giao diện Cognito Console mới (phân cấp Lite/Essentials/Plus và trình hướng dẫn nhanh). | 15/06/2026 | 15/06/2026 |  |
+| 2 - 3 | Cấu hình thuộc tính tùy biến `custom:role` và tạo các nhóm quản trị (`admin`, `user`) trong Cognito. | 15/06/2026 | 16/06/2026 |  |
+| 4 - 5 | Phân tích quyền hạn của các hàm backend đối với S3, DynamoDB, Cognito. Thiết kế các khối quyền JSON tương ứng. | 17/06/2026 | 18/06/2026 |  |
 | 5 | Khởi tạo các IAM Policies tùy chỉnh trước (`SmartImage-ApiHandler-Policy`, `SmartImage-ImageProcessor-Policy`, và `SmartImage-AIAnalyzer-Policy`) trong phần Access Management. | 18/06/2026 | 18/06/2026 |  |
 | 6 | Thực hành: Tạo các Lambda service roles trong mục IAM Roles, liên kết các chính sách bảo mật đã tạo ở Bước 5 để hoàn thành các execution roles. | 19/06/2026 | 19/06/2026 |  |
 

@@ -16,8 +16,8 @@ pre: " <b> 1.12. </b> "
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
 | --- | --- | --- | --- | --- |
 | 2 | Kết nối kho mã nguồn GitHub chứa React client với AWS Amplify Console, cấu hình tệp `amplify.yml`. | 29/06/2026 | 29/06/2026 |  |
-| 3 | Thiết lập các biến môi trường client (UserPool ID, Client ID, API Invoke URL) và deploy ứng dụng. | 30/06/2026 | 30/06/2026 |  |
-| 4 | Chạy thử nghiệm E2E: Đăng ký, đăng nhập, tải ảnh JPEG/PNG lên, xác minh hiển thị ảnh nén và kiểm duyệt nhãn AI. | 01/07/2026 | 01/07/2026 |  |
+| 2 - 3 | Thiết lập các biến môi trường client (UserPool ID, Client ID, API Invoke URL) và deploy ứng dụng. | 29/06/2026 | 30/06/2026 |  |
+| 4 - 5 | Chạy thử nghiệm E2E: Đăng ký, đăng nhập, tải ảnh JPEG/PNG lên, xác minh hiển thị ảnh nén và kiểm duyệt nhãn AI. | 01/07/2026 | 02/07/2026 |  |
 | 5 | Kiểm thử lỗi bằng cách tải tệp tin không hợp lệ, truy vết logs trong CloudWatch Logs, theo dõi biểu đồ trên Dashboard và xác nhận email cảnh báo từ SNS. | 02/07/2026 | 02/07/2026 |  |
 | 6 | Thực hành: Thực hiện xóa dữ liệu trong các S3 buckets và chạy lệnh `cdk destroy --all` (hoặc dọn dẹp trên Console) để giải phóng tài nguyên. | 03/07/2026 | 03/07/2026 |  |
 
