@@ -6,7 +6,7 @@ chapter: false
 pre: " <b> 4. </b> "
 ---
 
-During the internship, the participant attended three official events, gaining valuable hands-on experience and technology insights:
+During the internship, three official events were attended, gaining valuable hands-on experience and technology insights:
 
 ### [Event 1: FCAJ Sharing Session 9/5](4.1-Event1/)
 &emsp;**Event Name:** FCAJ Sharing Session (Knowledge Sharing Session 09/05/2026)  

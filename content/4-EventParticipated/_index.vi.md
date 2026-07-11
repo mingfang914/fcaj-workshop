@@ -6,7 +6,7 @@ chapter: false
 pre: " <b> 4. </b> "
 ---
 
-Trong quá trình thực tập, người thực hiện đã tham gia 3 sự kiện chính thức, mang lại các trải nghiệm học hỏi thực tế và những kiến thức công nghệ bổ ích:
+Trong quá trình thực tập, đã tham gia 3 sự kiện chính thức, mang lại các trải nghiệm học hỏi thực tế và những kiến thức công nghệ bổ ích:
 
 ### [Event 1: FCAJ Sharing Session 9/5](4.1-Event1/)
 &emsp;**Tên sự kiện:** FCAJ Sharing Session (Buổi chia sẻ kiến thức 09/05/2026)  

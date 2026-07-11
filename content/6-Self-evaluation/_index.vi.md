@@ -7,7 +7,7 @@ pre: " <b> 6. </b> "
 ---
 
 Trong suốt thời gian thực tập tại **Công ty TNHH Amazon Web Services Việt Nam** từ **17/04/2026** đến **12/07/2026**, đã có cơ hội học hỏi, rèn luyện và áp dụng kiến thức đã được trang bị tại trường vào môi trường làm việc thực tế.  
-Quá trình tham gia xây dựng dự án **Smart Image Platform – Giải pháp AWS Serverless & Event-Driven toàn diện cho hệ thống lưu trữ và xử lý ảnh thông minh** đã giúp cải thiện các kỹ năng lập trình Spring Boot/React, phân tích thiết kế hệ thống Cloud Native, cấu hình các dịch vụ hạ tầng đám mây AWS và viết tài liệu kỹ thuật.  
+Quá trình tham gia xây dựng dự án **Smart Image Platform – Giải pháp AWS Serverless & Event-Driven toàn diện cho hệ thống lưu trữ và xử lý ảnh thông minh** đã giúp cải thiện các kỹ năng cấu hình các dịch vụ hạ tầng Serverless (AWS Lambda, S3, DynamoDB, Cognito, API Gateway, CloudFront), tối ưu hóa dung lượng hình ảnh và tích hợp các dịch vụ AI (Amazon Rekognition).  
 
 Về tác phong, luôn cố gắng hoàn thành tốt nhiệm vụ, tuân thủ nội quy, và tích cực trao đổi với đồng nghiệp để nâng cao hiệu quả công việc.
 
