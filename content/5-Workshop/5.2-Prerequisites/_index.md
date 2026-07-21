@@ -46,7 +46,7 @@ aws sts get-caller-identity
 
 ## 3. Repository and Amplify
 
-Amplify Console uses the GitHub App to connect a repository. Select the correct repository and the `staging` branch; no Personal Access Token screenshot is required.
+Amplify Console uses the GitHub App to connect a repository. Select the correct repository and the `staging` or `main` branch, recommend `staging`.
 
 The current CDK code reads `GITHUB_REPO_URL`, `GITHUB_BRANCH`, and `GITHUB_TOKEN` from environment variables when creating the Amplify app. Never commit the token to Git or include it directly in documentation.
 

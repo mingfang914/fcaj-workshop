@@ -46,7 +46,7 @@ aws sts get-caller-identity
 
 ## 3. Repository và Amplify
 
-Amplify Console sử dụng GitHub App để kết nối repository. Chọn đúng repository và nhánh `staging`; không cần chụp hoặc công bố Personal Access Token.
+Amplify Console sử dụng GitHub App để kết nối repository. Chọn đúng repository và nhánh `staging` hoặc `main`, khuyên dùng `staging`.
 
 CDK hiện nhận các giá trị `GITHUB_REPO_URL`, `GITHUB_BRANCH` và `GITHUB_TOKEN` từ biến môi trường để tạo Amplify app. Token không được commit vào Git hoặc ghi trực tiếp vào tài liệu.
 
