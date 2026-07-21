@@ -56,7 +56,7 @@ Console walkthrough tập trung vào ba Lambda nghiệp vụ:
 | `SmartImage-ImageProcessor-staging` | ARM64 | 1536 MB | 120 giây | 1024 MB |
 | `SmartImage-AiAnalyzer-staging` | ARM64 | 512 MB | 60 giây | Mặc định |
 
-Ảnh deployment hiện tại hiển thị Node.js 20.x vì đó là runtime trong mã CDK tại thời điểm chụp. Khi tạo mới thủ công, chọn Node.js 22.x hoặc runtime còn được AWS hỗ trợ và kiểm thử tương thích trước khi deploy.
+Ảnh deployment hiện tại hiển thị Node.js 20.x vì đó là runtime trong mã CDK tại thời điểm chụp. Giao diện **Create function** mới hiển thị Node.js 24.x; khi tạo thủ công có thể chọn runtime này sau khi kiểm thử package. Việc chọn runtime mới trên Console không tự cập nhật mã CDK.
 
 ![Các Lambda của môi trường staging sau khi deploy CDK](/images/5-Workshop/5.5-Backend-Serverless/lambda_list.png)
 
@@ -68,14 +68,20 @@ Với mỗi Lambda nghiệp vụ:
 
 1. Mở [AWS Lambda Console](https://console.aws.amazon.com/lambda/) → **Functions** → **Create function**.
 2. Chọn **Author from scratch**.
-3. Nhập đúng function name trong bảng trên.
-4. Chọn Node.js 22.x hoặc runtime Node.js đang được AWS hỗ trợ và đã được kiểm thử với package.
-5. Ở **Architecture**, chọn `arm64`.
-6. Trong **Change default execution role**, chọn **Use an existing role** và chọn role tương ứng đã tạo.
-7. Chọn **Create function**.
-8. Mở **Configuration** → **General configuration** → **Edit**, đặt memory và timeout theo bảng.
-9. Riêng ImageProcessor, mở **Ephemeral storage** và đặt `1024 MB`.
-10. Mở **Configuration** → **Environment variables** → **Edit** và nhập các biến của function.
+3. Trong **Basic information**, nhập đúng **Function name** trong bảng trên.
+4. Ở **Runtime**, chọn **Node.js 24.x** hoặc runtime Node.js đang được AWS hỗ trợ và đã được kiểm thử với package.
+5. Mở **Additional settings** trong khối **Custom settings**.
+6. Bật **ARM64 architecture**.
+7. Bật **Custom execution role**. Panel **Configure custom execution role** xuất hiện bên phải.
+8. Trong **Execution role**, chọn **Choose an existing role**, chọn role tương ứng rồi nhấn **Save** trong panel.
+9. Giữ **Durable execution**, **EC2 capacity provider**, Function URL, VPC và các tùy chọn khác ở trạng thái mặc định vì CDK không dùng chúng.
+10. Cuộn xuống cuối trang và chọn **Create function**.
+
+![Tạo Lambda với ARM64 và custom execution role trên giao diện hiện tại](/images/5-Workshop/5.5-Backend-Serverless/lambda_create_function.png)
+
+11. Sau khi function được tạo, mở **Configuration** → **General configuration** → **Edit**, đặt memory và timeout theo bảng.
+12. Riêng ImageProcessor, đặt **Ephemeral storage** là `1024 MB`.
+13. Mở **Configuration** → **Environment variables** → **Edit** và nhập các biến của function.
 
 ### Deployment package
 
@@ -102,6 +108,10 @@ Bổ sung:
 - `AiAnalyzer`: bắt buộc có `RAW_BUCKET_NAME` và `IMAGE_TABLE_NAME` để đọc ảnh và cập nhật metadata.
 
 Nhập tên vật lý thật của bucket/table/User Pool thay cho logical name. Sau khi lưu, mở **Configuration** → **Permissions** để xác nhận execution role đúng; sau đó chạy một test event nhỏ hoặc mở log group để chắc chắn function khởi tạo được trước khi gắn trigger.
+
+![Các biến môi trường thực tế của ImageProcessor staging](/images/5-Workshop/5.5-Backend-Serverless/lambda_environment_variables.png)
+
+Ảnh minh họa ImageProcessor có 15 biến. `AI_ANALYZER_FUNCTION_NAME` đang để trống theo đúng CDK hiện tại vì pipeline sử dụng DynamoDB Stream để gọi AiAnalyzer, không invoke trực tiếp từ ImageProcessor.
 
 ## 3. S3 Event Notification
 
@@ -169,8 +179,21 @@ Nếu Console không hiển thị retry và destination trong form DynamoDB, m�
 
 1. Chọn **Resources** → **Create resource**, bắt đầu với resource `/v1`.
 2. Tạo các resource con theo đúng cây đường dẫn. Với `{imageId}`, giữ dấu ngoặc nhọn để API Gateway nhận đây là path parameter.
-3. Trên mỗi resource, chọn **Create method**, chọn HTTP method, integration type **Lambda function**, bật Lambda proxy integration và chọn `SmartImage-ApiHandler-staging`.
-4. Gắn authorizer theo bảng sau:
+3. Chọn resource cần gắn method rồi chọn **Create method**.
+4. Trong **Method details**, chọn **Method type** tương ứng như `GET`, `POST`, `PATCH` hoặc `DELETE`.
+5. Ở **Integration type**, chọn **Lambda function**.
+6. Bật **Lambda proxy integration** để chuyển request thành event có cấu trúc cho ApiHandler.
+7. Ở **Response transfer mode**, chọn **Buffered**; dự án không dùng response streaming.
+8. Ở **Lambda function**, chọn Region `ap-southeast-1`, tìm và chọn `SmartImage-ApiHandler-staging`.
+9. Giữ default timeout nếu không có yêu cầu khác. Khi lưu, chấp nhận để API Gateway thêm permission invoke vào resource-based policy của Lambda.
+10. Chọn **Create method**.
+
+![Tạo REST API method với Lambda proxy integration](/images/5-Workshop/5.5-Backend-Serverless/api_gateway_create_method.png)
+
+11. Mở method vừa tạo → tab **Method request** → **Edit**.
+12. Với route protected, chọn **Authorization/Authorizer: CognitoAuth**. Với `GET /v1/images/public`, giữ **None**.
+13. Với `PATCH`/`POST`, chọn request validator tương đương CDK; sau đó lưu method request.
+14. Lặp lại theo bảng sau:
 
 | Method | Path | Authorization |
 |---|---|---|
@@ -186,23 +209,122 @@ Nếu Console không hiển thị retry và destination trong form DynamoDB, m�
 | `GET` | `/v1/admin/moderation` | `CognitoAuth` và kiểm tra group trong Lambda |
 | `POST` | `/v1/admin/moderation/{imageId}` | `CognitoAuth` và kiểm tra group trong Lambda |
 
-5. Với `PATCH`/`POST`, bật request body validator tương đương CDK. Bật CORS trên các resource được frontend gọi; cho phép origin Amplify, headers `Content-Type,Authorization` và các methods thực tế.
-6. Chọn **Deploy API**, tạo stage name `dev`, rồi deploy.
-7. Sao chép invoke URL có dạng `https://<api-id>.execute-api.ap-southeast-1.amazonaws.com/dev`.
-8. Gọi `GET /v1/images/public` không token để kiểm tra route public; gọi route protected không token phải nhận `401 Unauthorized`.
+15. Bật CORS trên các resource được frontend gọi; cho phép origin Amplify, headers `Content-Type,Authorization` và các methods thực tế.
+16. Chọn **Deploy API**, tạo stage name `dev`, rồi deploy.
+17. Sao chép invoke URL có dạng `https://<api-id>.execute-api.ap-southeast-1.amazonaws.com/dev`.
+18. Gọi `GET /v1/images/public` không token để kiểm tra route public; gọi route protected không token phải nhận `401 Unauthorized`.
 
 Trong CDK hiện tại, environment `staging` được ánh xạ sang API Gateway stage `dev`; production dùng stage `prod`.
 
 > CDK hiện còn khai báo `/v1/auth/signup`, `/login` và `/refresh`, nhưng router Lambda không triển khai các handler tương ứng; frontend xác thực trực tiếp với Cognito. Không dùng ba route này trong Console walkthrough.
 
-## 6. WAF và monitoring
+## 6. AWS WAF Web ACL (tùy chọn trên Console)
 
-CDK còn tạo WAF Web ACL, SQS DLQs, API access log group, CloudWatch dashboard, alarms và SNS topic. Có thể quan sát các tài nguyên này trên Console; không cần cấu hình lại thủ công để hoàn thành phần minh họa.
+CDK tạo một AWS WAF v2 Web ACL Regional và gắn trực tiếp với API Gateway stage `dev`. WAF được đánh giá trước Cognito authorizer, vì vậy request bị WAF chặn sẽ không đi đến bước xác thực hoặc Lambda.
 
-Nếu muốn dựng thủ công để học thêm, thực hiện sau khi API hoạt động:
+> AWS WAF có chi phí riêng cho Web ACL, rule và request. Có thể chỉ quan sát tài nguyên do CDK tạo nếu không muốn phát sinh thêm tài nguyên thủ công.
 
-1. Tạo CloudWatch log group `/aws/apigateway/SmartImage-staging` và bật access logging trên stage `dev`.
-2. Tạo SNS topic `SmartImage-Alarms-staging`, thêm email subscription và xác nhận email.
-3. Tạo dashboard `SmartImage-staging-Operations` cùng alarm Errors/Throttles cho ba Lambda và 5XX/latency cho API.
-4. Tạo WAF Web ACL loại Regional trong `ap-southeast-1`, thêm AWS managed rules và rate-based rule, rồi associate với API Gateway stage `dev`.
-5. Ghi nhận WAF và monitoring là phần mở rộng Console; cấu hình chính xác và đầy đủ vẫn nằm trong CDK stack.
+### Tạo Web ACL
+
+Trên giao diện mới, AWS gọi Web ACL là **Protection pack (web ACL)**. Đây chỉ là thay đổi tên hiển thị; CDK và API vẫn dùng khái niệm `WebACL`.
+
+1. Mở [AWS WAF Console](https://console.aws.amazon.com/wafv2/homev2) → **Protection packs (web ACLs)**.
+2. Kiểm tra **Region scope** và chọn Region `ap-southeast-1`, sau đó chọn **Create protection pack (web ACL)**.
+
+![Danh sách Protection packs (web ACLs) trên giao diện WAF mới](/images/5-Workshop/5.5-Backend-Serverless/waf_protection_packs.png)
+
+3. Trong **Tell us about your app**, chọn app category **API & integration services**. Có thể chọn thêm **Media & file processing**, nhưng đây chỉ là thông tin để Console đề xuất protection và không có trong CDK.
+4. Mở **Select resources to protect**, chọn **add resources** -> **Add regional resources**, API `SmartImage-API-staging` và stage `dev`.
+5. Trong **Choose initial protections**, chỉ giữ hoặc bổ sung các rule cần thiết để tương đương CDK; các protection package khác do Console đề xuất là tùy chọn.
+6. Mở **Name and describe**, nhập tên `SmartImage-ApiWebAcl-staging` và CloudWatch metric name `SmartImage-WafMetrics-staging`.
+7. Giữ web request body inspection size mặc định và default action **Allow**; CDK không tăng giới hạn inspection body.
+8. Tiếp tục đến trang review và tạo protection pack.
+
+![Wizard Create protection pack với app category và resource selection](/images/5-Workshop/5.5-Backend-Serverless/waf_create_protection_pack.png)
+
+### Thêm AWS Managed Rules
+
+1. Chọn **Add rules** → **Add managed rule groups**.
+2. Mở **AWS managed rule groups** và bật `Core rule set (AWSManagedRulesCommonRuleSet)`.
+3. Giữ rule action theo rule group (**Use rule actions/None**) để khớp `overrideAction: none` trong CDK.
+4. Lưu rule với priority `1` và bật CloudWatch metrics/sampled requests.
+5. Khi triển khai ngoài lab, có thể đặt managed rule group ở chế độ Count trước để quan sát false positive rồi mới chuyển sang action thật; đây là lựa chọn vận hành khác CDK hiện tại.
+
+### Thêm rate-based rule
+
+1. Chọn **Add rules** → **Add my own rules and rule groups** → **Rule builder**.
+2. Chọn rule type **Rate-based rule** và nhập tên `RateLimitRule`.
+3. Chọn aggregate theo **Source IP address**.
+4. Nhập rate limit `2000`, evaluation window **5 minutes** (mặc định khi CDK không khai báo giá trị) và chọn action **Block**.
+5. Đặt priority `2`, metric name `RateLimitRuleMetric`, bật CloudWatch metrics và sampled requests.
+6. Giữ Web ACL default action là **Allow** rồi chọn **Create web ACL**.
+
+### Kiểm tra association
+
+1. Mở API Gateway → `SmartImage-API-staging` → **Stages** → `dev` → **Edit**.
+2. Trong **Web application firewall (AWS WAF)**, chọn Web ACL vừa tạo và lưu.
+3. Quay lại WAF → Web ACL → **Associated AWS resources** để xác nhận stage `dev` xuất hiện.
+4. Mở **Sampled requests** và CloudWatch metric của hai rules sau khi API có traffic.
+
+<!-- Chèn ảnh WAF rules/association tại đây khi có: /images/5-Workshop/5.5-Backend-Serverless/waf_rules_association.png -->
+
+## 7. CloudWatch, alarms và SNS (tùy chọn trên Console)
+
+### API Gateway access logs
+
+1. Mở CloudWatch → **Logs** → **Log management** → **Create log group**.
+2. Nhập `/aws/apigateway/SmartImage-staging`, chọn retention 30 ngày và log class **Standard**.
+3. Để KMS key trống nếu dùng service-managed encryption; deletion protection là tùy chọn và CDK hiện không bật.
+
+![Tạo CloudWatch log group với retention và log class](/images/5-Workshop/5.5-Backend-Serverless/cloudwatch_create_log_group.png)
+
+4. Mở API Gateway → API → **Stages** → `dev` → **Logs and tracing/Edit**.
+5. Bật access logging, chọn ARN của log group và dùng JSON access-log format chứa các standard fields như request ID, IP, caller, HTTP method, resource path, status, protocol, response length và request time.
+6. CDK cũng bật X-Ray tracing cho stage. Bật **X-Ray tracing** nếu muốn cấu hình Console tương đương.
+
+### SNS topic và email subscription
+
+1. Mở [Amazon SNS Console](https://console.aws.amazon.com/sns/) → **Topics** → **Create topic**.
+2. Chọn type **Standard**, name `SmartImage-Alarms-staging`, display name `SmartImage staging Alarms`.
+3. Giữ Encryption, Access policy và Delivery policy mặc định để khớp cấu hình lab, rồi chọn **Create topic**.
+
+![Tạo SNS Standard topic cho cảnh báo staging](/images/5-Workshop/5.5-Backend-Serverless/sns_create_topic.png)
+
+4. Trong topic vừa tạo, chọn **Create subscription**, protocol **Email** và nhập địa chỉ nhận cảnh báo.
+5. Mở email từ AWS Notification và chọn **Confirm subscription**. Trạng thái `Pending confirmation` không nhận alarm notification.
+
+### Tạo các alarms tương đương CDK
+
+1. Trong CloudWatch chọn **Alarms** → **All alarms** → **Create alarm**.
+2. Ở Step 1 **Specify metric and conditions**, chọn data source **Metrics**, type **Classic**, rồi chọn **Select metric**.
+
+![Bước chọn Metrics và Classic khi tạo CloudWatch alarm](/images/5-Workshop/5.5-Backend-Serverless/cloudwatch_create_alarm.png)
+
+3. Trong cửa sổ metric, chọn namespace Lambda, ApiGateway hoặc DynamoDB và dimension trong bảng dưới.
+4. Thiết lập statistic, period, threshold và missing data.
+5. Ở Step 2 **Configure actions**, chọn **In alarm** → gửi notification đến `SmartImage-Alarms-staging`.
+6. Ở Step 3, đặt tên có prefix `SmartImage-staging-`; xem lại ở Step 4 rồi chọn **Create alarm**.
+
+| Nhóm | Metric và dimension | Statistic / Period | Điều kiện |
+|---|---|---|---|
+| Mỗi Lambda | `AWS/Lambda` → `Errors`, `FunctionName` | Sum / 5 phút | `> 5`, 1 period |
+| Mỗi Lambda | `AWS/Lambda` → `Duration`, `FunctionName` | p95 / 5 phút | ApiHandler `>12000 ms`; ImageProcessor `>96000 ms`; AiAnalyzer `>48000 ms`, 2 periods |
+| Mỗi Lambda | `AWS/Lambda` → `Throttles`, `FunctionName` | Sum / 5 phút | `>=1`, 1 period |
+| API Gateway | `AWS/ApiGateway` → `5XXError`, `ApiName` | Sum / 5 phút | `>10`, 1 period |
+| API Gateway | `AWS/ApiGateway` → `Latency`, `ApiName` | p95 / 5 phút | `>3000 ms`, 2 periods |
+| DynamoDB Images | `AWS/DynamoDB` → `ThrottledRequests`, `TableName` | Sum / 5 phút | `>=1`, 1 period |
+
+Đặt missing data là **Treat missing data as not breaching**. Tên alarm dùng prefix `SmartImage-staging-`; alarm Errors chỉ chuyển ALARM khi có ít nhất 6 lỗi trong một period vì toán tử là **Greater than 5**.
+
+### Tạo operational dashboard
+
+1. Chọn **Dashboards** → **Create dashboard**, nhập `SmartImage-staging-Operations`.
+2. Thêm text widget làm tiêu đề.
+3. Với mỗi Lambda, thêm graph **Invocations & Errors**: Invocations/Sum ở trục trái, Errors/Sum ở trục phải, period 5 phút.
+4. Với mỗi Lambda, thêm graph **Duration (ms)** gồm Average và p95, period 5 phút.
+5. Sắp xếp ba graph mỗi hàng và chọn **Save dashboard**.
+6. Dashboard là global trong tài khoản nhưng metric widget vẫn đọc dữ liệu theo Region; kiểm tra metric đang lấy từ `ap-southeast-1`.
+
+<!-- Chèn ảnh CloudWatch dashboard tại đây khi có: /images/5-Workshop/5.5-Backend-Serverless/cloudwatch_dashboard_setup.png -->
+
+Các bước WAF và CloudWatch là phần minh họa Console. Nếu stack CDK đã deploy, chỉ quan sát và đối chiếu các tài nguyên hiện có; không tạo bản sao cùng chức năng.

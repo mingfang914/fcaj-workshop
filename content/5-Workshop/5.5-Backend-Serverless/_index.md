@@ -56,7 +56,7 @@ The Console walkthrough focuses on three business functions:
 | `SmartImage-ImageProcessor-staging` | ARM64 | 1536 MB | 120 seconds | 1024 MB |
 | `SmartImage-AiAnalyzer-staging` | ARM64 | 512 MB | 60 seconds | Default |
 
-The deployment screenshot shows Node.js 20.x because that is the CDK runtime at capture time. For a newly created manual function, select Node.js 22.x or another currently supported runtime and test compatibility before deployment.
+The deployment screenshot shows Node.js 20.x because that is the runtime in the current CDK code. The current **Create function** screen offers Node.js 24.x; a manual function can use it after package compatibility is tested. Selecting a newer runtime in the Console does not update the CDK code.
 
 ![Lambda functions in staging after CDK deployment](/images/5-Workshop/5.5-Backend-Serverless/lambda_list.png)
 
@@ -68,14 +68,20 @@ For each business function:
 
 1. Open the [AWS Lambda Console](https://console.aws.amazon.com/lambda/) → **Functions** → **Create function**.
 2. Select **Author from scratch**.
-3. Enter the exact function name from the table above.
-4. Select Node.js 22.x or another currently supported Node.js runtime tested with the package.
-5. Under **Architecture**, select `arm64`.
-6. Expand **Change default execution role**, select **Use an existing role**, and choose the matching role.
-7. Choose **Create function**.
-8. Open **Configuration** → **General configuration** → **Edit** and set memory and timeout from the table.
-9. For ImageProcessor, set **Ephemeral storage** to `1024 MB`.
-10. Open **Configuration** → **Environment variables** → **Edit** and enter the function values.
+3. Under **Basic information**, enter the exact **Function name** from the table above.
+4. For **Runtime**, select **Node.js 24.x** or another supported Node.js runtime tested with the package.
+5. Expand **Additional settings** under **Custom settings**.
+6. Turn on **ARM64 architecture**.
+7. Turn on **Custom execution role**. The **Configure custom execution role** panel opens on the right.
+8. For **Execution role**, select **Choose an existing role**, select the matching role, and choose **Save** in the panel.
+9. Leave **Durable execution**, **EC2 capacity provider**, Function URL, VPC, and other settings at their defaults because CDK does not use them.
+10. Scroll to the bottom and choose **Create function**.
+
+![Create a Lambda with ARM64 and a custom execution role in the current UI](/images/5-Workshop/5.5-Backend-Serverless/lambda_create_function.png)
+
+11. After creation, open **Configuration** → **General configuration** → **Edit** and set memory and timeout from the table.
+12. For ImageProcessor, set **Ephemeral storage** to `1024 MB`.
+13. Open **Configuration** → **Environment variables** → **Edit** and enter the function values.
 
 ### Deployment package
 
@@ -102,6 +108,10 @@ Additional values:
 - `AiAnalyzer`: `RAW_BUCKET_NAME` and `IMAGE_TABLE_NAME` are required for image reads and metadata updates.
 
 Use actual physical resource names rather than logical names. After saving, open **Configuration** → **Permissions** and verify the execution role. Run a small test event or inspect the log group to confirm that the function initializes before adding triggers.
+
+![Actual environment variables for the staging ImageProcessor](/images/5-Workshop/5.5-Backend-Serverless/lambda_environment_variables.png)
+
+The ImageProcessor example contains 15 variables. `AI_ANALYZER_FUNCTION_NAME` is empty in the current CDK deployment because DynamoDB Streams invokes AiAnalyzer; ImageProcessor does not invoke it directly.
 
 ## 3. S3 Event Notification
 
@@ -169,8 +179,21 @@ If retry and destination are absent from the DynamoDB form, open Lambda → **Co
 
 1. Choose **Resources** → **Create resource** and begin with `/v1`.
 2. Create the nested resource tree. Preserve braces in `{imageId}` so API Gateway treats it as a path parameter.
-3. For each resource, choose **Create method**, select the HTTP method, use **Lambda function** with Lambda proxy integration, and select `SmartImage-ApiHandler-staging`.
-4. Apply authorization as follows:
+3. Select the target resource and choose **Create method**.
+4. Under **Method details**, select the required **Method type**, such as `GET`, `POST`, `PATCH`, or `DELETE`.
+5. For **Integration type**, select **Lambda function**.
+6. Turn on **Lambda proxy integration** so the complete request is passed to ApiHandler as a structured event.
+7. For **Response transfer mode**, select **Buffered**; this project does not use response streaming.
+8. Under **Lambda function**, select Region `ap-southeast-1`, then find and select `SmartImage-ApiHandler-staging`.
+9. Keep the default timeout unless another value is required. When saving, allow API Gateway to add invoke permission to the Lambda resource policy.
+10. Choose **Create method**.
+
+![Create a REST API method with Lambda proxy integration](/images/5-Workshop/5.5-Backend-Serverless/api_gateway_create_method.png)
+
+11. Open the new method → **Method request** tab → **Edit**.
+12. For a protected route, select **Authorization/Authorizer: CognitoAuth**. Keep **None** for `GET /v1/images/public`.
+13. For `PATCH`/`POST`, select the request validator equivalent to CDK and save the method request.
+14. Repeat according to this table:
 
 | Method | Path | Authorization |
 |---|---|---|
@@ -186,23 +209,122 @@ If retry and destination are absent from the DynamoDB form, open Lambda → **Co
 | `GET` | `/v1/admin/moderation` | `CognitoAuth` plus group check in Lambda |
 | `POST` | `/v1/admin/moderation/{imageId}` | `CognitoAuth` plus group check in Lambda |
 
-5. Add a request-body validator to `PATCH`/`POST` methods to mirror CDK. Enable CORS on resources called by the frontend; allow the Amplify origin, `Content-Type,Authorization` headers, and only the methods used.
-6. Choose **Deploy API**, create stage `dev`, and deploy.
-7. Copy the invoke URL: `https://<api-id>.execute-api.ap-southeast-1.amazonaws.com/dev`.
-8. Call `GET /v1/images/public` without a token to verify the public route; a protected route without a token should return `401 Unauthorized`.
+15. Enable CORS on resources called by the frontend; allow the Amplify origin, `Content-Type,Authorization` headers, and only the methods used.
+16. Choose **Deploy API**, create stage `dev`, and deploy.
+17. Copy the invoke URL: `https://<api-id>.execute-api.ap-southeast-1.amazonaws.com/dev`.
+18. Call `GET /v1/images/public` without a token to verify the public route; a protected route without a token should return `401 Unauthorized`.
 
 In the current CDK code, the `staging` environment maps to API Gateway stage `dev`; production uses `prod`.
 
 > CDK currently also declares `/v1/auth/signup`, `/login`, and `/refresh`, but the Lambda router has no matching handlers; the frontend authenticates directly with Cognito. Do not use those three routes in the Console walkthrough.
 
-## 6. WAF and monitoring
+## 6. AWS WAF Web ACL (optional Console path)
 
-CDK also creates a WAF Web ACL, SQS DLQs, an API access log group, a CloudWatch dashboard, alarms, and an SNS topic. These resources can be inspected in the Console and do not need to be recreated for the visual walkthrough.
+CDK creates a Regional AWS WAF v2 Web ACL and associates it with API Gateway stage `dev`. WAF evaluates requests before the Cognito authorizer, so a WAF-blocked request never reaches authentication or Lambda.
 
-For an optional manual extension after the API works:
+> AWS WAF has separate charges for Web ACLs, rules, and requests. Inspect the CDK-created resource instead of creating a manual duplicate when extra lab cost is not wanted.
 
-1. Create `/aws/apigateway/SmartImage-staging` and enable access logging on stage `dev`.
-2. Create SNS topic `SmartImage-Alarms-staging`, add an email subscription, and confirm the email.
-3. Create dashboard `SmartImage-staging-Operations` and Errors/Throttles alarms for the Lambdas plus API 5XX/latency alarms.
-4. Create a Regional WAF Web ACL in `ap-southeast-1`, add AWS managed rules and a rate-based rule, and associate it with API stage `dev`.
-5. Treat WAF and monitoring as a Console extension; the complete authoritative configuration remains in CDK.
+### Create the Web ACL
+
+The new Console labels a Web ACL as a **Protection pack (web ACL)**. This is a UI naming change; CDK and the API still use `WebACL`.
+
+1. Open the [AWS WAF Console](https://console.aws.amazon.com/wafv2/homev2) → **Protection packs (web ACLs)**.
+2. Check **Region scope**, select `ap-southeast-1`, and choose **Create protection pack (web ACL)**.
+
+![Protection packs (web ACLs) in the new WAF interface](/images/5-Workshop/5.5-Backend-Serverless/waf_protection_packs.png)
+
+3. Under **Tell us about your app**, select **API & integration services**. **Media & file processing** may also be selected, but it only affects Console recommendations and is not present in CDK.
+4. Expand **Select resources to protect**, select **add resources** -> **Add regional resources**, API `SmartImage-API-staging`, and stage `dev`.
+5. Under **Choose initial protections**, retain or add only the rules required to match CDK; other Console-recommended protection packages are optional.
+6. Expand **Name and describe**, enter `SmartImage-ApiWebAcl-staging` and CloudWatch metric name `SmartImage-WafMetrics-staging`.
+7. Keep the default body inspection size and default action **Allow**; CDK does not increase body inspection.
+8. Continue to review and create the protection pack.
+
+![Create protection pack wizard with app category and resource selection](/images/5-Workshop/5.5-Backend-Serverless/waf_create_protection_pack.png)
+
+### Add AWS Managed Rules
+
+1. Choose **Add rules** → **Add managed rule groups**.
+2. Expand **AWS managed rule groups** and enable `Core rule set (AWSManagedRulesCommonRuleSet)`.
+3. Keep rule-group actions (**Use rule actions/None**) to match CDK `overrideAction: none`.
+4. Save it with priority `1` and enable CloudWatch metrics/sampled requests.
+5. Outside the lab, the rule group can first run in Count mode to observe false positives. That operational choice differs from the current CDK configuration.
+
+### Add the rate-based rule
+
+1. Choose **Add rules** → **Add my own rules and rule groups** → **Rule builder**.
+2. Select **Rate-based rule** and enter `RateLimitRule`.
+3. Aggregate by **Source IP address**.
+4. Enter rate limit `2000`, use the **5 minutes** evaluation window (the default when CDK omits the value), and choose **Block**.
+5. Set priority `2`, metric name `RateLimitRuleMetric`, and enable CloudWatch metrics/sampled requests.
+6. Keep the Web ACL default action **Allow** and choose **Create web ACL**.
+
+### Verify association
+
+1. Open API Gateway → `SmartImage-API-staging` → **Stages** → `dev` → **Edit**.
+2. Under **Web application firewall (AWS WAF)**, select the new Web ACL and save.
+3. Return to WAF → Web ACL → **Associated AWS resources** and verify that stage `dev` appears.
+4. Inspect **Sampled requests** and both rule metrics after the API receives traffic.
+
+<!-- Add WAF rules/association screenshot here later: /images/5-Workshop/5.5-Backend-Serverless/waf_rules_association.png -->
+
+## 7. CloudWatch, alarms, and SNS (optional Console path)
+
+### API Gateway access logs
+
+1. Open CloudWatch → **Logs** → **Log management** → **Create log group**.
+2. Enter `/aws/apigateway/SmartImage-staging`, select 30-day retention, and log class **Standard**.
+3. Leave KMS key empty for service-managed encryption; deletion protection is optional and is not enabled by the current CDK stack.
+
+![Create a CloudWatch log group with retention and log class](/images/5-Workshop/5.5-Backend-Serverless/cloudwatch_create_log_group.png)
+
+4. Open API Gateway → API → **Stages** → `dev` → **Logs and tracing/Edit**.
+5. Enable access logging, select the log-group ARN, and use a JSON format with standard fields such as request ID, IP, caller, HTTP method, resource path, status, protocol, response length, and request time.
+6. CDK also enables X-Ray tracing for the stage. Turn on **X-Ray tracing** for an equivalent Console configuration.
+
+### SNS topic and email subscription
+
+1. Open the [Amazon SNS Console](https://console.aws.amazon.com/sns/) → **Topics** → **Create topic**.
+2. Select **Standard**, name `SmartImage-Alarms-staging`, and display name `SmartImage staging Alarms`.
+3. Keep Encryption, Access policy, and Delivery policy at their defaults for the lab, then choose **Create topic**.
+
+![Create a Standard SNS topic for staging alarms](/images/5-Workshop/5.5-Backend-Serverless/sns_create_topic.png)
+
+4. In the new topic, choose **Create subscription**, protocol **Email**, and enter the notification address.
+5. Open the AWS Notification email and choose **Confirm subscription**. A `Pending confirmation` subscription receives no alarm notifications.
+
+### Create alarms equivalent to CDK
+
+1. In CloudWatch, choose **Alarms** → **All alarms** → **Create alarm**.
+2. In Step 1 **Specify metric and conditions**, select data source **Metrics**, type **Classic**, and choose **Select metric**.
+
+![Select Metrics and Classic when creating a CloudWatch alarm](/images/5-Workshop/5.5-Backend-Serverless/cloudwatch_create_alarm.png)
+
+3. In the metric dialog, choose the Lambda, ApiGateway, or DynamoDB namespace and the dimension shown below.
+4. Configure statistic, period, threshold, and missing-data handling.
+5. In Step 2 **Configure actions**, select **In alarm** and send a notification to `SmartImage-Alarms-staging`.
+6. In Step 3, use a name prefixed `SmartImage-staging-`; review Step 4 and choose **Create alarm**.
+
+| Group | Metric and dimension | Statistic / Period | Condition |
+|---|---|---|---|
+| Each Lambda | `AWS/Lambda` → `Errors`, `FunctionName` | Sum / 5 minutes | `>5`, 1 period |
+| Each Lambda | `AWS/Lambda` → `Duration`, `FunctionName` | p95 / 5 minutes | ApiHandler `>12000 ms`; ImageProcessor `>96000 ms`; AiAnalyzer `>48000 ms`, 2 periods |
+| Each Lambda | `AWS/Lambda` → `Throttles`, `FunctionName` | Sum / 5 minutes | `>=1`, 1 period |
+| API Gateway | `AWS/ApiGateway` → `5XXError`, `ApiName` | Sum / 5 minutes | `>10`, 1 period |
+| API Gateway | `AWS/ApiGateway` → `Latency`, `ApiName` | p95 / 5 minutes | `>3000 ms`, 2 periods |
+| Images DynamoDB | `AWS/DynamoDB` → `ThrottledRequests`, `TableName` | Sum / 5 minutes | `>=1`, 1 period |
+
+Set missing data to **Treat missing data as not breaching**. Prefix alarm names with `SmartImage-staging-`; the Errors alarm requires at least six errors in one period because the comparison is **Greater than 5**.
+
+### Create the operational dashboard
+
+1. Choose **Dashboards** → **Create dashboard** and enter `SmartImage-staging-Operations`.
+2. Add a text widget for the heading.
+3. For each Lambda, add an **Invocations & Errors** graph: Invocations/Sum on the left axis and Errors/Sum on the right, period five minutes.
+4. For each Lambda, add a **Duration (ms)** graph with Average and p95, period five minutes.
+5. Arrange three graphs per row and choose **Save dashboard**.
+6. Dashboards are global within an account, but their metric widgets still read a Region; verify that widgets use `ap-southeast-1`.
+
+<!-- Add CloudWatch dashboard screenshot here later: /images/5-Workshop/5.5-Backend-Serverless/cloudwatch_dashboard_setup.png -->
+
+The WAF and CloudWatch steps are Console illustrations. When CDK has already deployed the stacks, inspect and compare the existing resources instead of creating functional duplicates.
