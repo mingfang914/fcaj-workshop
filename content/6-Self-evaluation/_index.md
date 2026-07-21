@@ -6,7 +6,7 @@ chapter: false
 pre: " <b> 6. </b> "
 ---
 
-During the internship at **Amazon Web Services Vietnam Company Limited** from **April 17, 2026** to **July 12, 2026**, had the opportunity to learn, practice, and apply the knowledge acquired in school to a real-world working environment.  
+During the internship at **Amazon Web Services Vietnam Company Limited** from **April 17, 2026** to **July 31, 2026**, had the opportunity to learn, practice, and apply the knowledge acquired in school to a real-world working environment.  
 Participation in the **Smart Image Platform – A Comprehensive AWS Serverless & Event-Driven Solution for Smart Image Storage and Processing** project helped improve skills in configuring Serverless infrastructure services (AWS Lambda, S3, DynamoDB, Cognito, API Gateway, CloudFront), image size optimization, and integrating AI services (Amazon Rekognition).  
 
 In terms of work ethic, always strived to complete tasks well, complied with workplace regulations, and actively engaged with colleagues to improve work efficiency.
