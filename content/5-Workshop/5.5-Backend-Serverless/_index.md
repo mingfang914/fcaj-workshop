@@ -1,316 +1,101 @@
 ---
-title: "Serverless Backend & Triggers"
+title: "Console - Serverless Backend"
 date: 2024-01-01
-weight: 5
+weight: 6
 chapter: false
-pre: " <b> 5.5. </b> "
----
-# Serverless Backend & Triggers (AWS Console)
-
-In this section, this section covers creating the IAM policies and roles first, deploy the Lambda functions, establish the triggers, and configure the Amazon API Gateway.
-
+pre: " <b> 5.6. </b> "
 ---
 
-### Step 1: Create Custom IAM Policies
+# Serverless Backend in the AWS Console (optional)
 
-Before creating the execution roles for our Lambdas, we will create the custom permission policies under the IAM Access Management.
+> This is a Console configuration map, not the primary deployment method. If the API stack exists, use the Console only for inspection; do not recreate functions, triggers, or APIs with the same names.
 
-#### A. Create the API Handler Policy (`SmartImage-ApiHandler-Policy`)
-1. Open the [IAM Console](https://console.aws.amazon.com/iam/).
-2. In the left navigation pane, under **Access Management**, click **Policies**.
-3. Click the orange **Create policy** button.
-4. Under **Policy editor**, select the **JSON** tab (next to Visual). Delete the default code and paste the following policy:
-   ```json
-   {
-     "Version": "2012-10-17",
-     "Statement": [
-       {
-         "Effect": "Allow",
-         "Action": [
-           "dynamodb:GetItem",
-           "dynamodb:PutItem",
-           "dynamodb:UpdateItem",
-           "dynamodb:DeleteItem",
-           "dynamodb:Query",
-           "dynamodb:Scan"
-         ],
-         "Resource": [
-           "arn:aws:dynamodb:ap-southeast-1:*:table/SmartImage-Images*",
-           "arn:aws:dynamodb:ap-southeast-1:*:table/SmartImage-UserQuotas*",
-           "arn:aws:dynamodb:ap-southeast-1:*:table/SmartImage-UserProfiles*"
-         ]
-       },
-       {
-         "Effect": "Allow",
-         "Action": [
-           "s3:PutObject",
-           "s3:GetObject"
-         ],
-         "Resource": [
-           "arn:aws:s3:::smartimage-raw-bucket-*/*",
-           "arn:aws:s3:::smartimage-processed-bucket-*/*"
-         ]
-       },
-       {
-         "Effect": "Allow",
-         "Action": [
-           "cognito-idp:AdminUpdateUserAttributes"
-         ],
-         "Resource": "arn:aws:cognito-idp:ap-southeast-1:*:userpool/*"
-       },
-       {
-         "Effect": "Allow",
-         "Action": [
-           "logs:CreateLogGroup",
-           "logs:CreateLogStream",
-           "logs:PutLogEvents"
-         ],
-         "Resource": "arn:aws:logs:*:*:*"
-       }
-     ]
-   }
-   ```
-5. Click **Next**.
-6. **Policy name:** Enter `SmartImage-ApiHandler-Policy`.
-7. Click **Create policy**.
+## 1. Execution roles and permissions
 
-#### B. Create the Image Processor Policy (`SmartImage-ImageProcessor-Policy`)
-1. Click **Policies** in the left menu, then click **Create policy**.
-2. Select the **JSON** editor, paste the following policy:
-   ```json
-   {
-     "Version": "2012-10-17",
-     "Statement": [
-       {
-         "Effect": "Allow",
-         "Action": [
-           "s3:GetObject"
-         ],
-         "Resource": "arn:aws:s3:::smartimage-raw-bucket-*/*"
-       },
-       {
-         "Effect": "Allow",
-         "Action": [
-           "s3:PutObject"
-         ],
-         "Resource": "arn:aws:s3:::smartimage-processed-bucket-*/*"
-       },
-       {
-         "Effect": "Allow",
-         "Action": [
-           "dynamodb:UpdateItem",
-           "dynamodb:GetItem"
-         ],
-         "Resource": "arn:aws:dynamodb:ap-southeast-1:*:table/SmartImage-Images*"
-       },
-       {
-         "Effect": "Allow",
-         "Action": [
-           "logs:CreateLogGroup",
-           "logs:CreateLogStream",
-           "logs:PutLogEvents"
-         ],
-         "Resource": "arn:aws:logs:*:*:*"
-       }
-     ]
-   }
-   ```
-3. Click **Next**, name the policy `SmartImage-ImageProcessor-Policy`, and click **Create policy**.
+Each Lambda has a separate execution role with `AWSLambdaBasicExecutionRole` and resource-scoped `staging` permissions:
 
-#### C. Create the AI Analyzer Policy (`SmartImage-AIAnalyzer-Policy`)
-1. Click **Policies** in the left menu, then click **Create policy**.
-2. Select the **JSON** editor, paste the following policy:
-   ```json
-   {
-     "Version": "2012-10-17",
-     "Statement": [
-       {
-         "Effect": "Allow",
-         "Action": [
-           "dynamodb:GetRecords",
-           "dynamodb:GetShardIterator",
-           "dynamodb:DescribeStream",
-           "dynamodb:ListStreams"
-         ],
-         "Resource": "arn:aws:dynamodb:ap-southeast-1:*:table/SmartImage-Images*/stream/*"
-       },
-       {
-         "Effect": "Allow",
-         "Action": [
-           "rekognition:DetectLabels",
-           "rekognition:DetectModerationLabels"
-         ],
-         "Resource": "*"
-       },
-       {
-         "Effect": "Allow",
-         "Action": [
-           "s3:GetObject"
-         ],
-         "Resource": "arn:aws:s3:::smartimage-raw-bucket-*/*"
-       },
-       {
-         "Effect": "Allow",
-         "Action": [
-           "dynamodb:UpdateItem"
-         ],
-         "Resource": "arn:aws:dynamodb:ap-southeast-1:*:table/SmartImage-Images*"
-       },
-       {
-         "Effect": "Allow",
-         "Action": [
-           "logs:CreateLogGroup",
-           "logs:CreateLogStream",
-           "logs:PutLogEvents"
-         ],
-         "Resource": "arn:aws:logs:*:*:*"
-       }
-     ]
-   }
-   ```
-3. Click **Next**, name the policy `SmartImage-AIAnalyzer-Policy`, and click **Create policy**.
+| Lambda | Main permissions |
+|---|---|
+| `ApiHandler` | S3 Get/Put/Delete; DynamoDB Get/Put/Update/Delete/Query/Scan/BatchGet/BatchWrite on three tables and indexes; `cognito-idp:AdminUpdateUserAttributes` on the User Pool |
+| `ImageProcessor` | S3 Get on the raw bucket, Put on the processed bucket; DynamoDB read/write/query on `Images`; SQS SendMessage for its DLQ |
+| `AiAnalyzer` | S3 Get on the raw bucket; DynamoDB stream read and table read/write/batch; Rekognition DetectLabels/DetectModerationLabels; SQS SendMessage for its DLQ |
 
----
+![Attach a custom policy to a Lambda role in the Console path](/images/5-Workshop/5.5-Backend-Serverless/iam_roles_setup.png)
 
-### Step 2: Create IAM Roles for Lambda Functions
+> **Difference from CDK:** CDK creates roles and resource grants automatically. The custom managed policy in the screenshot is only a manual equivalent. Restrict resource ARNs to the actual buckets, tables, indexes, streams, queues, and User Pool.
 
-Now we will create the execution roles and attach the custom policies created in Step 1.
+## 2. Lambda functions
 
-#### A. Create `SmartImage-ApiHandler-Role`
-1. Under **Access Management** in the left navigation pane, click **Roles**.
-2. Click **Create role**.
-3. **Step 1: Select trusted entity:** Select **AWS service** and choose **Lambda** as the use case. Click **Next**.
-4. **Step 2: Add permissions page:**
-   * In the search box, search for `SmartImage-ApiHandler-Policy`.
-   * Check the checkbox next to it in the policy list. Click **Next**.
-5. **Step 3: Name, review, and create page:**
-   * **Role name:** Enter `SmartImage-ApiHandler-Role`.
-   * Click **Create role**.
+The Console walkthrough focuses on three business functions:
 
-#### B. Create `SmartImage-ImageProcessor-Role`
-1. Click **Roles** -> **Create role**. Select **Lambda** and click **Next**.
-2. Search for and check the checkbox next to `SmartImage-ImageProcessor-Policy`. Click **Next**.
-3. **Role name:** Enter `SmartImage-ImageProcessor-Role`. Click **Create role**.
+| Function | Architecture | Memory | Timeout | Temporary storage |
+|---|---:|---:|---:|---:|
+| `SmartImage-ApiHandler-staging` | ARM64 | 512 MB | 15 seconds | Default |
+| `SmartImage-ImageProcessor-staging` | ARM64 | 1536 MB | 120 seconds | 1024 MB |
+| `SmartImage-AiAnalyzer-staging` | ARM64 | 512 MB | 60 seconds | Default |
 
-#### C. Create `SmartImage-AIAnalyzer-Role`
-1. Click **Roles** -> **Create role**. Select **Lambda** and click **Next**.
-2. Search for and check the checkbox next to `SmartImage-AIAnalyzer-Policy`. Click **Next**.
-3. **Role name:** Enter `SmartImage-AIAnalyzer-Role`. Click **Create role**.
+The deployment screenshot shows Node.js 20.x because that is the CDK runtime at capture time. For a newly created manual function, select Node.js 22.x or another currently supported runtime and test compatibility before deployment.
 
-![IAM Roles Setup](/images/5-Workshop/5.5-Backend-Serverless/iam_roles_setup.png)
+![Lambda functions in staging after CDK deployment](/images/5-Workshop/5.5-Backend-Serverless/lambda_list.png)
 
----
+Long names such as `CustomS3AutoDeleteObject`, `BucketNotificationsHandler`, and `LogRetention` are CDK provider functions. `SmartImage-Authorizer-staging` also exists, but the API uses the Cognito User Pool Authorizer.
 
-### Step 3: Create and Deploy Lambda Functions
+### Deployment package
 
-1. Open the [AWS Lambda Console](https://console.aws.amazon.com/lambda/).
-2. Click **Create function**.
-3. In the creation wizard:
-   * Select **Author from scratch**.
-   * **Runtime:** Select `Node.js 22.x` (or another newer Node version compatible with the backend).
-   * Scroll down to **Custom settings** -> click to expand **Additional settings**.
-   * Under the **General** section inside Additional settings:
-     * Toggle **ARM64 architecture** to **On** (enables Graviton2 for better cost performance).
-     * Toggle **Custom execution role** to **On** (to attach our pre-created IAM role).
+Do not zip raw TypeScript source. Build with esbuild/`NodejsFunction`; `ImageProcessor` must include Sharp compiled for Linux ARM64. AWS SDK v3 can be externalized as in CDK or bundled deliberately.
 
-#### A. Create `SmartImage-ApiHandler`
-* **Function name:** Enter `SmartImage-ApiHandler`.
-* **Custom execution role:** Select `SmartImage-ApiHandler-Role` in the dropdown.
-* Click **Create function**.
-* **Code & Deployment:** Zip the compiled files from `backend/api-handler/` and upload them under the **Code** tab.
-* **Environment variables:** Under *Configuration -> Environment variables*, add:
-   * `IMAGE_TABLE_NAME` = `SmartImage-Images`
-   * `USER_QUOTA_TABLE_NAME` = `SmartImage-UserQuotas`
-   * `USER_PROFILE_TABLE_NAME` = `SmartImage-UserProfiles`
-   * `RAW_BUCKET_NAME` = `smartimage-raw-bucket-<your-name>`
-   * `PROCESSED_BUCKET_NAME` = `smartimage-processed-bucket-<your-name>`
-   * `USER_POOL_ID` = `<your-cognito-user-pool-id>`
+### Environment variables
 
-#### B. Create `SmartImage-ImageProcessor`
-* **Function name:** Enter `SmartImage-ImageProcessor`.
-* **Custom execution role:** Select `SmartImage-ImageProcessor-Role` in the dropdown.
-* Click **Create function**.
-* **Code & Deployment:** Zip the compiled files from `backend/image-processor/` (containing the `Sharp` dependency compiled for Linux/Lambda runtime) and upload them.
-* **Environment variables:**
-   * `IMAGE_TABLE_NAME` = `SmartImage-Images`
-   * `PROCESSED_BUCKET_NAME` = `smartimage-processed-bucket-<your-name>`
+All three functions use `IMAGE_TABLE_NAME`, `USER_QUOTA_TABLE_NAME`, `USER_PROFILE_TABLE_NAME`, `RAW_BUCKET_NAME`, `PROCESSED_BUCKET_NAME`, `ENVIRONMENT=staging`, `POWERTOOLS_SERVICE_NAME=SmartImage`, `POWERTOOLS_LOG_LEVEL=DEBUG`, and `NODE_OPTIONS=--enable-source-maps`.
 
-#### C. Create `SmartImage-AIAnalyzer`
-* **Function name:** Enter `SmartImage-AIAnalyzer`.
-* **Custom execution role:** Select `SmartImage-AIAnalyzer-Role` in the dropdown.
-* Click **Create function**.
-* **Code & Deployment:** Zip the compiled files from `backend/ai-analyzer/` and upload them.
-* **Environment variables:**
-   * `IMAGE_TABLE_NAME` = `SmartImage-Images`
+Additional values:
 
-![Lambda Functions List](/images/5-Workshop/5.5-Backend-Serverless/lambda_list.png)
+- `ApiHandler`: `USER_POOL_ID`, `PRESIGNED_URL_EXPIRY=900`.
+- `ImageProcessor`: `THUMBNAIL_WIDTH=200`, `THUMBNAIL_HEIGHT=200`, `RESIZED_MAX_WIDTH=1920`, `RESIZED_MAX_HEIGHT=1080`.
+- `AiAnalyzer`: `RAW_BUCKET_NAME` and `IMAGE_TABLE_NAME` are required for image reads and metadata updates.
 
----
+## 3. S3 Event Notification
 
-### Step 4: Establish Triggers
+Create an event notification on the raw bucket:
 
-#### A. Configure S3 Event Notification (Trigger ImageProcessor)
-1. Go back to your S3 S3 bucket `smartimage-raw-bucket-<your-name>` in the S3 Console.
-2. Select the **Properties** tab.
-3. Scroll to **Event notifications** and click **Create event notification**.
-4. **Event name:** Enter `TriggerImageProcessor`.
-5. **Prefix:** Enter `users/` (to ensure the Lambda is only triggered when users upload images inside their dedicated directories).
-6. **Event types:** Check **All object create events** (`s3:ObjectCreated:*`).
-7. **Destination:** Select **Lambda function** and choose `SmartImage-ImageProcessor`.
-8. Click **Save changes**.
+- Event: **All object create events**.
+- Prefix: `users/`.
+- Destination: `SmartImage-ImageProcessor-staging`.
+- Do not add a suffix when Lambda is responsible for format validation.
 
-![S3 Event Trigger Setup](/images/5-Workshop/5.5-Backend-Serverless/s3_trigger_setup.png)
+![S3 Event Notification destination](/images/5-Workshop/5.5-Backend-Serverless/s3_trigger_setup.png)
 
-#### B. Configure DynamoDB Stream Trigger (Trigger AIAnalyzer)
-1. Go to the DynamoDB Console and click **Tables**.
-2. Select `SmartImage-Images` and open the **Exports and streams** tab.
-3. In **DynamoDB stream details**, click **Create trigger**.
-4. **Lambda function:** Select `SmartImage-AIAnalyzer`.
-5. **Batch size:** Enter `1` (for instant processing).
-6. Keep other settings default and click **Create trigger**.
+The screenshot illustrates the destination only; enter the event type and prefix listed above.
 
-![DynamoDB Stream Trigger Setup](/images/5-Workshop/5.5-Backend-Serverless/dynamodb_trigger_setup.png)
+## 4. DynamoDB Stream event source
 
----
+Create a trigger from the `Images` stream to `SmartImage-AiAnalyzer-staging` with batch size 10.
 
-### Step 5: Configure Amazon API Gateway
+![Create a DynamoDB trigger with batch size 10](/images/5-Workshop/5.5-Backend-Serverless/dynamodb_trigger_setup.png)
 
-1. Open the [API Gateway Console](https://console.aws.amazon.com/apigateway/).
-2. Click **Create API** -> Select **REST API** -> Click **Build**.
-3. **API name:** Enter `SmartImage-API`.
-4. Click **Create API**.
-5. **Configure Cognito Authorizer:**
-   * **Note:** To see the API-specific navigation menu (which contains "Authorizers"), you must first click on your API name (e.g., `SmartImage-API`) from the list of APIs.
-   * In the new left-hand navigation pane that appears for your selected API, click **Authorizers** -> **Create authorizer**.
-   * **Name:** Enter `CognitoAuth`.
-   * **Type:** Select **Cognito**.
-   * **Cognito User Pool:** Select `SmartImage-UserPool`.
-   * **Token source:** Enter `Authorization` (in header).
-   * Click **Create authorizer**.
- 6. **Configure Resources & Proxy Method:**
-   * In the left panel for your API, click **Resources**.
-   * Select the root `/` (or `/v1` if if wishing to deploy under `/v1`) in the resource tree.
-   * Click the **Create resource** button (located above the resource tree).
-   * **Proxy resource:** Toggle to **On** (this will automatically configure it as a proxy resource `{proxy+}` and create the `ANY` method).
-   * **CORS (Cross-Origin Resource Sharing):** Toggle to **On**.
-   * Click **Create resource**.
-   * Once created, select the **ANY** method under the newly created `{proxy+}` resource. (If it does not automatically open the method setup, click **Create method** under the resource).
-   * In the **Method details / Integration** configuration screen:
-     * **Integration type:** Select **Lambda function** (This is where the Integration type dropdown is located!).
-     * **Lambda proxy integration:** Toggle to **On** (highly important!).
-     * **Lambda function:** Select Singapore region and choose `SmartImage-ApiHandler`.
-     * Click **Create method** (or **Save**).
- 7. **Secure API Methods:**
-   * Select the `ANY` method of the `/v1/images/{proxy+}` (or `{proxy+}`) resource in the tree.
-   * Go to the **Method request** tab.
-   * Click **Edit**.
-   * **Authorization:** Select `CognitoAuth` in the dropdown.
-   * Click **Save**.
- 8. **Deploy API:**
-   * Click the **Deploy API** button at the top right of the resources page.
-   * **Stage:** Select **[New Stage]**, and enter the stage name as `dev`.
-   * Click **Deploy**.
+After creation, open the event source mapping in Lambda and verify/configure:
 
-![API Gateway Authorizer](/images/5-Workshop/5.5-Backend-Serverless/api_gateway_authorizer.png)
+- Starting position: `TRIM_HORIZON`.
+- Maximum retry attempts: `3`.
+- On-failure destination: `SmartImage-AiAnalyzerDlq-staging` SQS queue.
+- Trigger enabled.
 
-   * *Note down the **Invoke URL** (e.g., `https://xxxx.execute-api.ap-southeast-1.amazonaws.com/dev`). these are needed it to configure the React frontend.*
+The screenshot shows only the initial trigger form; CDK also declares retry and destination settings.
+
+## 5. API Gateway and Cognito Authorizer
+
+1. Create a REST API for `staging` and a Cognito authorizer named `CognitoAuth`.
+2. Select `SmartImage-UserPool-staging`; use the `Authorization` header as the token source.
+
+![Cognito User Pool Authorizer in API Gateway](/images/5-Workshop/5.5-Backend-Serverless/api_gateway_authorizer.png)
+
+3. Create a Lambda proxy integration for `SmartImage-ApiHandler-staging`.
+4. Create the primary resources and methods under `/v1/profile`, `/v1/images`, `/v1/images/presigned-url`, `/v1/images/public`, `/v1/images/search`, `/v1/images/{imageId}`, `/v1/images/{imageId}/download`, and `/v1/admin/moderation`.
+5. Attach `CognitoAuth` to authenticated routes. Keep `GET /v1/images/public` public; Lambda additionally verifies the `cognito:groups` claim for admin operations.
+6. Configure CORS for the frontend origin and deploy the `dev` stage. In the current CDK code, the `staging` environment maps to API Gateway stage `dev`; production uses `prod`.
+
+> CDK currently also declares `/v1/auth/signup`, `/login`, and `/refresh`, but the Lambda router has no matching handlers; the frontend authenticates directly with Cognito. Do not use those three routes in the Console walkthrough.
+
+## 6. WAF and monitoring
+
+CDK also creates a WAF Web ACL, SQS DLQs, an API access log group, a CloudWatch dashboard, alarms, and an SNS topic. These resources can be inspected in the Console and do not need to be recreated for the visual walkthrough.

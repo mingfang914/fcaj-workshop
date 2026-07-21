@@ -1,72 +1,68 @@
 ---
-title: "Frontend Deployment with AWS Amplify"
+title: "Console - Amplify Hosting"
 date: 2024-01-01
-weight: 6
+weight: 7
 chapter: false
-pre: " <b> 5.6. </b> "
+pre: " <b> 5.7. </b> "
 ---
 
-# Deploy React Frontend via AWS Amplify (AWS Console)
+# React Frontend on AWS Amplify (optional)
 
-In this section, you will deploy the React client application using **AWS Amplify**, hook up continuous deployment from GitHub, and configure the necessary client-side environment variables.
+> The Frontend stack creates the Amplify app, branch, build specification, environment variables, and SPA rewrite through CDK. This section shows the Console equivalent.
 
----
+## 1. Connect the repository
 
-### Step 1: Connect GitHub Repository to AWS Amplify
+1. Open the Amplify Console, choose **Create new app**, and select **GitHub**.
+2. Install/authorize the AWS Amplify GitHub App for the required repository. No Personal Access Token value or screenshot is needed in the Console path.
+3. Select the `AWS-Project` repository and the `staging` branch.
+4. Mark the application as a monorepo if the Console presents that option.
 
-1. Open the [AWS Amplify Console](https://console.aws.amazon.com/amplify/).
-2. Click **Create new app** (or **Get Started** -> **Amplify Hosting**).
-3. Select **GitHub** as the provider and click **Next** (authorize AWS Amplify to connect to your GitHub account if prompted).
-4. **Repository:** Choose your `AWS-Project` GitHub repository.
-5. **Branch:** Select the branch if wishing to deploy (e.g., `main`, `staging`, or your feature branch).
-6. Click **Next**.
+![Connect Amplify through the GitHub App](/images/5-Workshop/5.6-Frontend-Amplify/amplify_app_setup.png)
 
-![AWS Amplify App Setup](/images/5-Workshop/5.6-Frontend-Amplify/amplify_app_setup.png)
+The screenshot illustrates GitHub App authorization only; select the repository and branch for the target environment.
 
----
+## 2. Environment variables
 
-### Step 2: Configure Build Settings & Environment Variables
+Configure four variables:
 
-AWS Amplify needs to know how to build the project and how to communicate with your backend APIs.
+| Key | Value |
+|---|---|
+| `VITE_API_URL` | Invoke URL for the `staging` API environment (currently ending in `/dev`) |
+| `VITE_USER_POOL_ID` | Cognito User Pool ID |
+| `VITE_CLIENT_ID` | Cognito app client ID |
+| `VITE_AWS_REGION` | `ap-southeast-1` |
 
-#### A. Configure Environment Variables
-1. On the **App settings** page, expand the **Advanced settings** (or **Environment variables**) section.
-2. Add the following key-value pairs (using the values you saved from Cognito and API Gateway steps):
-   * `VITE_API_URL` = `https://<api-id>.execute-api.ap-southeast-1.amazonaws.com/dev` *(Ensure no trailing slash)*
-   * `VITE_USER_POOL_ID` = `<your-user-pool-id>` (e.g., `ap-southeast-1_xxxxxx`)
-   * `VITE_CLIENT_ID` = `<your-app-client-id>` (e.g., `7xxxxxxxxxxxxxxxxxxxxxxxxx`)
-   * `VITE_AWS_REGION` = `ap-southeast-1`
+![Frontend environment variable keys](/images/5-Workshop/5.6-Frontend-Amplify/amplify_env_setup.png)
 
-![Amplify Environment Variables](/images/5-Workshop/5.6-Frontend-Amplify/amplify_env_setup.png)
+Avoid an unintended trailing `/` in the API base URL. Never place secrets in `VITE_*` variables because their values are embedded in browser-delivered JavaScript.
 
-#### B. Edit Build Specification (`amplify.yml`)
-Because this project is configured as an npm workspaces monorepo, update the **Build command** and **Base directory** settings:
-1. In the build settings configuration text area, paste the following custom `amplify.yml` config:
-   ```yaml
-   version: 1
-   frontend:
-     phases:
-       preBuild:
-         commands:
-           - npm ci
-       build:
-         commands:
-           - npm run --workspace=frontend build
-     artifacts:
-       baseDirectory: frontend/dist
-       files:
-         - '**/*'
-     cache:
-       paths:
-         - node_modules/**/*
-   ```
-2. Click **Next**.
+## 3. Build specification
 
----
+CDK sets the build specification directly on the Amplify app. The Console equivalent is:
 
-### Step 3: Review and Deploy
+```yaml
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run --workspace=frontend build
+  artifacts:
+    baseDirectory: frontend/dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+```
 
-1. Review the repository details, branch name, environment variables, and build settings.
-2. Click **Save and deploy**.
-3. Amplify will begin provisioning, building, and deploying your frontend. This takes approximately 3-5 minutes.
-4. Once completed, Amplify will output a **Domain URL** (e.g., `https://main.xxxxxxxx.amplifyapp.com`). Bounding this URL will open your live React application.
+When the repository uses `amplify.yml`, keep it equivalent to the build specification above; avoid maintaining two conflicting sources of build configuration.
+
+## 4. SPA rewrite and deployment
+
+Add a `200` rewrite to `/index.html` for client-side routes while excluding static files such as CSS, JS, PNG, SVG, fonts, maps, and JSON. Choose **Save and deploy**, then verify the `staging` branch URL.
+
+> The CloudFront distribution behind Amplify is managed by the service and is not a distribution for the processed S3 bucket. The project's Storage stack still has its separate CloudFront distribution disabled.

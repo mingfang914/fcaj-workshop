@@ -8,23 +8,23 @@ pre: " <b> 1.11. </b> "
 
 ### Mục tiêu tuần 11:
 
-* Triển khai mã nguồn backend lên ba hàm Lambda sử dụng tài nguyên tối ưu.
+* Triển khai ba Lambda nghiệp vụ bằng AWS CDK và kiểm tra cấu hình runtime, kiến trúc, bộ nhớ và timeout.
 * Kết nối các sự kiện lưu trữ và dữ liệu cơ sở dữ liệu để kích hoạt tự động các tiến trình xử lý.
 * Cấu hình API Gateway REST API và tích hợp Cognito Authorizer bảo mật.
 
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
 | --- | --- | --- | --- | --- |
-| 2 | Khởi tạo các hàm Lambda (`ApiHandler`, `ImageProcessor`, `AIAnalyzer`) trên Console, chọn runtime Node.js 22.x, kiến trúc ARM64 và gán các vai trò thực thi tương ứng. | 22/06/2026 | 22/06/2026 |  |
-| 3 - 5 | Nén và tải lên các gói mã nguồn (bao gồm sharp cho xử lý ảnh và AWS SDK), thiết lập các biến môi trường kết nối tới các bảng DynamoDB và S3 buckets. | 23/06/2026 | 25/06/2026 |  |
-| 5 | Cấu hình S3 Event Notification kích hoạt `ImageProcessor` (lọc prefix `users/`) và cấu hình DynamoDB Stream kích hoạt `AIAnalyzer` (batch size: 1). | 25/06/2026 | 25/06/2026 |  |
-| 6 | Khởi tạo REST API `SmartImage-API` và cấu hình bộ Cognito Authorizer bảo mật. | 26/06/2026 | 26/06/2026 |  |
-| 6 | Thực hành: Tạo resource proxy `{proxy+}` có bật CORS, thiết lập method ANY tích hợp proxy tới `ApiHandler` và deploy lên stage `dev`. | 26/06/2026 | 26/06/2026 |  |
+| 2 | Khai báo `ApiHandler`, `ImageProcessor` và `AIAnalyzer` bằng CDK trên kiến trúc ARM64; kiểm tra memory, timeout, temporary storage và execution role của từng hàm. | 22/06/2026 | 22/06/2026 | `infrastructure/lib/stacks/api-stack.ts` |
+| 3 - 5 | Bundle mã TypeScript bằng esbuild qua `NodejsFunction`; đóng gói Sharp cho Linux ARM64 và cấu hình đầy đủ biến môi trường kết nối S3/DynamoDB. | 23/06/2026 | 25/06/2026 | API stack và backend handlers |
+| 5 | Cấu hình S3 Event Notification gọi `ImageProcessor` với prefix `users/`; cấu hình DynamoDB Stream gọi `AIAnalyzer` với batch size 10, 3 lần retry và SQS DLQ. | 25/06/2026 | 25/06/2026 | `infrastructure/lib/stacks/api-stack.ts` |
+| 6 | Khai báo REST API và Cognito User Pool Authorizer bằng CDK; kiểm tra các endpoint công khai và endpoint yêu cầu xác thực. | 26/06/2026 | 26/06/2026 | `infrastructure/lib/stacks/api-stack.ts` |
+| 6 | Tạo từng resource và method `/v1/profile`, `/v1/images`, `/v1/admin/...`; cấu hình CORS và deploy theo stage của môi trường. | 26/06/2026 | 26/06/2026 | API stack và API handler router |
 
 ### Kết quả đạt được tuần 11:
 
-* Triển khai và chạy thử nghiệm thành công 3 hàm Lambda serverless sử dụng kiến trúc ARM64 giúp giảm độ trễ và tiết kiệm chi phí.
-* Cấu hình S3 Event Notification kích hoạt `ImageProcessor` khi tải tệp lên raw bucket tại thư mục `users/`, tự động hóa quy trình nén ảnh bằng thư viện Sharp và lưu trữ sang processed bucket.
-* Bật DynamoDB Stream tích hợp kích hoạt `AIAnalyzer` khi có thay đổi bản ghi, tự động gọi Amazon Rekognition để dán thẻ hình ảnh và kiểm duyệt nội dung nhạy cảm.
-* Thiết lập thành công REST API trên API Gateway với tài nguyên proxy `{proxy+}` và phương thức `ANY` trỏ về `ApiHandler` sử dụng cơ chế Lambda Proxy Integration.
-* Tích hợp bộ Cognito Authorizer (`CognitoAuth`) bảo vệ các endpoint API Gateway, chỉ cho phép các request chứa ID Token hợp lệ đi qua.
+* Deploy ba Lambda nghiệp vụ trên ARM64 bằng CDK. Chưa thực hiện benchmark riêng nên không đưa ra kết luận định lượng về độ trễ hoặc mức tiết kiệm chi phí.
+* `ImageProcessor` nhận sự kiện từ raw bucket, sử dụng Sharp được bundle cho Linux ARM64 và ghi kết quả sang processed bucket.
+* `AIAnalyzer` nhận DynamoDB Stream với batch size 10, retry tối đa 3 lần và SQS on-failure destination. Hàm cần `RAW_BUCKET_NAME` cùng các biến môi trường bảng/bucket khác.
+* API Gateway sử dụng các resource và method khai báo rõ ràng, không sử dụng `{proxy+}`/`ANY`. `/v1/images/public` là endpoint công khai; các endpoint còn lại được gắn Cognito User Pool Authorizer theo cấu hình.
+* CDK hiện khai báo Node.js 20.x trong API stack. Đây là điểm cần nâng lên Node.js 22.x để phù hợp runtime được hỗ trợ trong năm 2026; worklog không ghi nhận Node.js 22.x là trạng thái đã triển khai khi mã nguồn chưa được cập nhật.

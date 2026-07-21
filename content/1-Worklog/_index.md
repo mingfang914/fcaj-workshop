@@ -12,7 +12,7 @@ The weekly tasks are distributed as follows:
 
 **Week 1:** [Getting familiar with the FCAJ internship program](1.1-Week1/) (17/04/2026 - 19/04/2026)
 
-**Week 2:** [Create AWS account, receive $100, complete 5 labs for another $100. Study and practice Identity and Access Management (AWS IAM & MFA)](1.2-Week2/) (20/04/2026 - 26/04/2026)
+**Week 2:** [Set up an AWS account, configure cost controls, and practice Identity and Access Management (AWS IAM & MFA)](1.2-Week2/) (20/04/2026 - 26/04/2026)
 
 **Week 3:** [Study and practice Object Storage & Content Delivery Network (S3 & CloudFront)](1.3-Week3/) (27/04/2026 - 03/05/2026)
 
@@ -26,7 +26,7 @@ The weekly tasks are distributed as follows:
 
 **Week 8:** [Basic Serverless concepts (AWS Lambda, S3 Event Notification, API Gateway)](1.8-Week8/) (01/06/2026 - 07/06/2026)
 
-**Week 9:** [Official Project: Architecture Analysis & DynamoDB Single-Table Design](1.9-Week9/) (08/06/2026 - 14/06/2026)
+**Week 9:** [Official Project: Architecture analysis and access-pattern-driven DynamoDB design](1.9-Week9/) (08/06/2026 - 14/06/2026)
 
 **Week 10:** [Official Project: User Authentication (Cognito) & IAM Security Policies](1.10-Week10/) (15/06/2026 - 21/06/2026)
 

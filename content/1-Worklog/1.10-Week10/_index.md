@@ -10,20 +10,20 @@ pre: " <b> 1.10. </b> "
 
 * Configure secure user sign-ups and logins using Amazon Cognito.
 * Deploy Role-Based Access Control (RBAC) using User Groups.
-* Write custom least-privilege IAM policies and execution roles for backend Lambdas.
+* Declare backend execution roles and least-privilege permissions with AWS CDK.
 
 ### Tasks to be carried out this week:
 | Day | Task | Start Date | Completion Date | Reference Material |
 | --- | --- | --- | --- | --- |
-| 2 | Create Amazon Cognito User Pool with an SPA Web Client (no secret) using the revamped Cognito Console (Lite/Essentials/Plus tiers and Onboarding Wizard). | 06/15/2026 | 06/15/2026 |  |
-| 2 - 3 | Configure custom attribute `custom:role` and create user groups (`admin`, `user`) in Cognito. | 06/15/2026 | 06/16/2026 |  |
-| 4 - 5 | Analyze Lambda backend permission requirements for S3, DynamoDB, and Cognito, designing JSON permission blocks. | 06/17/2026 | 06/18/2026 |  |
-| 5 | Create the custom IAM Policies (`SmartImage-ApiHandler-Policy`, `SmartImage-ImageProcessor-Policy`, `SmartImage-AIAnalyzer-Policy`) under Access Management. | 06/18/2026 | 06/18/2026 |  |
-| 6 | Practice: Create Lambda execution roles and attach the respective custom policies to finalize authorization setups. | 06/19/2026 | 06/19/2026 |  |
+| 2 | Declare a Cognito User Pool and an SPA app client without a client secret in CDK; inspect the deployed resources in the Cognito Console. | 06/15/2026 | 06/15/2026 | `infrastructure/lib/stacks/auth-stack.ts` |
+| 2 - 3 | Create the `admin` and `user` Cognito groups; define the `cognito:groups` claim as the authorization source used by the frontend and backend. | 06/15/2026 | 06/16/2026 | Auth stack and frontend auth service source |
+| 4 - 5 | List the S3, DynamoDB, Cognito, and Rekognition operations used by each Lambda and compare them with the grants declared in CDK. | 06/17/2026 | 06/18/2026 | `infrastructure/lib/stacks/api-stack.ts` |
+| 5 | Verify that grants for `ApiHandler`, `ImageProcessor`, and `AIAnalyzer` cover the batch/query and object-deletion operations called by the handlers; adjust CDK if a mismatch is found. | 06/18/2026 | 06/18/2026 | Backend handlers and API stack |
+| 6 | Deploy the stack and inspect the execution roles and inline policies created by CloudFormation in the IAM Console. | 06/19/2026 | 06/19/2026 | AWS CDK/CloudFormation outputs |
 
 ### Week 10 Achievements:
 
-* Created the Amazon Cognito User Pool and configured the SPA Web Client with client secrets disabled, facilitating direct client-side authentication from React.
-* Added the custom attribute `custom:role` and established Cognito groups (`admin` with precedence 0, `user` with precedence 10) to support Role-Based Access Control (RBAC).
-* Designed and created custom IAM policies under Access Management (`SmartImage-ApiHandler-Policy`, `SmartImage-ImageProcessor-Policy`, `SmartImage-AIAnalyzer-Policy`) to ensure clean execution role associations.
-* Configured three Lambda execution roles with least-privilege permissions, granting secure access to specific S3 buckets, DynamoDB tables, and Amazon Rekognition APIs.
+* Created the Cognito User Pool and SPA app client without a client secret. TOTP MFA remains configurable by environment.
+* Used the `cognito:groups` claim to identify administrators; the frontend treats users outside the `admin` group as regular users.
+* Retained `custom:role` in the configuration, but it is not the primary authorization source. No Post Confirmation trigger currently adds new sign-ups to the `user` group automatically.
+* Created execution roles and resource grants through CDK instead of maintaining three manually created managed policies. Inspected resource ARNs and granted actions in the IAM Console after deployment.

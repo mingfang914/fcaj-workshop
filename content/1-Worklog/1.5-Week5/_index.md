@@ -17,13 +17,13 @@ pre: " <b> 1.5. </b> "
 | --- | --- | --- | --- | --- |
 | 2 | Study Amazon RDS: Database engine types, Multi-AZ deployments for high availability, and Read Replicas. | 05/11/2026 | 05/11/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 3 | Launch an Amazon RDS MySQL instance in private subnets. Configure DB Subnet Groups and Security Groups to restrict access. | 05/11/2026 | 05/12/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 4 | Connect to RDS MySQL from an EC2 instance to test queries. Perform a reboot with failover to evaluate Multi-AZ failover duration. | 05/13/2026 | 05/14/2026 | https://cloudjourney.awsstudygroup.com/ |
+| 4 | Connect from EC2 to RDS MySQL through the DB endpoint and run test queries. On the Multi-AZ configuration, run `Reboot with failover` and observe the connection interruption. | 05/13/2026 | 05/14/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 5 | Study Amazon DynamoDB NoSQL: Partition Keys (PK), Sort Keys (SK), Global Secondary Indexes (GSI), and Local Secondary Indexes (LSI). | 05/14/2026 | 05/14/2026 | https://cloudjourney.awsstudygroup.com/ |
 | 6 | Practice: Create a DynamoDB table on the console and perform basic CRUD operations using PartiQL and AWS CLI. | 05/15/2026 | 05/15/2026 | https://cloudjourney.awsstudygroup.com/ |
 
 ### Week 5 Achievements:
 
-* Launched an RDS MySQL instance in private subnets, utilizing DB Subnet Groups for backend database isolation.
-* Enabled RDS Multi-AZ replication and performed failover testing from EC2 to check recovery timelines.
-* Studied DynamoDB NoSQL structures, partitioning strategies, and Partition/Sort key selection.
-* Performed CRUD operations against DynamoDB collections using PartiQL queries and AWS CLI commands.
+* Launched RDS MySQL in private subnets and restricted its Security Group to the EC2 instance used by the lab.
+* Ran `Reboot with failover` on the Multi-AZ configuration and checked reconnection through the same DB endpoint.
+* Compared Partition Key, Sort Key, GSI, and LSI behavior using sample access patterns.
+* Ran DynamoDB CRUD operations through PartiQL and AWS CLI, then removed the lab resources.

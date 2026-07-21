@@ -1,72 +1,68 @@
 ---
-title: "Triển khai Frontend bằng AWS Amplify"
+title: "Console - Amplify Hosting"
 date: 2024-01-01
-weight: 6
+weight: 7
 chapter: false
-pre: " <b> 5.6. </b> "
+pre: " <b> 5.7. </b> "
 ---
 
-# Triển khai React Frontend bằng AWS Amplify (AWS Console)
+# React Frontend trên AWS Amplify (tùy chọn)
 
-Trong phần này, tiến hành đưa ứng dụng giao diện React Client lên môi trường internet thông qua **AWS Amplify**, kết nối tự động triển khai (CI/CD) từ GitHub và cấu hình các biến môi trường phía client.
+> Frontend stack tạo Amplify app, branch, build specification, biến môi trường và SPA rewrite bằng CDK. Phần này minh họa cấu hình tương đương trên Console.
 
----
+## 1. Kết nối repository
 
-### Bước 1: Kết nối GitHub Repository với AWS Amplify
+1. Mở Amplify Console, chọn **Create new app** và **GitHub**.
+2. Cài đặt/ủy quyền AWS Amplify GitHub App cho đúng repository. Không cần cung cấp ảnh hoặc giá trị Personal Access Token trong luồng Console.
+3. Chọn repository `AWS-Project` và branch `staging`.
+4. Đánh dấu ứng dụng là monorepo nếu Console hiển thị tùy chọn này.
 
-1. Mở [AWS Amplify Console](https://console.aws.amazon.com/amplify/).
-2. Chọn **Create new app** (hoặc chọn **Get Started** dưới mục **Amplify Hosting**).
-3. Chọn **GitHub** làm nhà cung cấp mã nguồn và nhấn **Next** (Thực hiện ủy quyền kết nối Amplify với tài khoản GitHub nếu được yêu cầu).
-4. **Repository:** Tìm chọn repository chứa dự án `AWS-Project` của người thực hiện trên GitHub.
-5. **Branch:** Chọn nhánh code muốn deploy (ví dụ: `main`, `staging`, hoặc nhánh tính năng).
-6. Nhấn **Next**.
+![Kết nối Amplify với GitHub App](/images/5-Workshop/5.6-Frontend-Amplify/amplify_app_setup.png)
 
-![Cấu hình AWS Amplify App](/images/5-Workshop/5.6-Frontend-Amplify/amplify_app_setup.png)
+Ảnh chỉ minh họa màn hình ủy quyền GitHub App; repository và branch cần được chọn theo môi trường đang deploy.
 
----
+## 2. Biến môi trường
 
-### Bước 2: Cấu hình Build Settings & Biến môi trường
+Cấu hình bốn biến:
 
-AWS Amplify cần biết cách đóng gói (build) ứng dụng React và địa chỉ API Gateway để gửi request.
+| Key | Value |
+|---|---|
+| `VITE_API_URL` | Invoke URL của API thuộc môi trường `staging` (hiện kết thúc bằng stage `/dev`) |
+| `VITE_USER_POOL_ID` | Cognito User Pool ID |
+| `VITE_CLIENT_ID` | Cognito app client ID |
+| `VITE_AWS_REGION` | `ap-southeast-1` |
 
-#### A. Cấu hình các biến môi trường (Environment Variables)
-1. Tại trang cấu hình **App settings**, mở rộng mục **Advanced settings** (hoặc mục **Environment variables**).
-2. Thêm các biến key-value sau đây (sử dụng các giá trị User Pool ID và API Gateway Invoke URL đã lưu ở các bước trước):
-   * `VITE_API_URL` = `https://<api-id>.execute-api.ap-southeast-1.amazonaws.com/dev` *(Lưu ý: Không để dấu gạch chéo / ở cuối URL)*
-   * `VITE_USER_POOL_ID` = `<user-pool-id-cua-ban>` (ví dụ: `ap-southeast-1_xxxxxx`)
-   * `VITE_CLIENT_ID` = `<app-client-id-cua-ban>` (ví dụ: `7xxxxxxxxxxxxxxxxxxxxxxxxx`)
-   * `VITE_AWS_REGION` = `ap-southeast-1`
+![Các key biến môi trường của frontend](/images/5-Workshop/5.6-Frontend-Amplify/amplify_env_setup.png)
 
-![Cấu hình Amplify Environment Variables](/images/5-Workshop/5.6-Frontend-Amplify/amplify_env_setup.png)
+Không thêm dấu `/` ngoài ý muốn vào API base URL và không lưu secret trong biến `VITE_*`, vì các giá trị này được đưa vào JavaScript gửi đến trình duyệt.
 
-#### B. Thiết lập cấu hình Build (`amplify.yml`)
-Do dự án này sử dụng mô hình monorepo (npm workspaces), cần cấu hình cụ thể lệnh build và thư mục đích cho Amplify:
-1. Tại khung cấu hình build settings, dán nội dung cấu hình `amplify.yml` tùy biến sau:
-   ```yaml
-   version: 1
-   frontend:
-     phases:
-       preBuild:
-         commands:
-           - npm ci
-       build:
-         commands:
-           - npm run --workspace=frontend build
-     artifacts:
-       baseDirectory: frontend/dist
-       files:
-         - '**/*'
-     cache:
-       paths:
-         - node_modules/**/*
-   ```
-2. Nhấn **Next**.
+## 3. Build specification
 
----
+CDK đặt build specification trực tiếp trên Amplify app. Cấu hình Console tương đương:
 
-### Bước 3: Kiểm tra và Triển khai
+```yaml
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run --workspace=frontend build
+  artifacts:
+    baseDirectory: frontend/dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+```
 
-1. Xem lại toàn bộ thông tin về repository, nhánh deploy, biến môi trường và file cấu hình build.
-2. Chọn **Save and deploy**.
-3. AWS Amplify sẽ tự động thực hiện các bước khởi tạo môi trường (Provision), tải code & đóng gói (Build) và đưa lên hosting (Deploy). Quá trình này diễn ra trong khoảng từ 3 đến 5 phút.
-4. Sau khi hoàn tất, Amplify sẽ cung cấp một đường dẫn tên miền mặc định **Domain URL** (ví dụ: `https://main.xxxxxxxx.amplifyapp.com`). có thể bấm vào link này để mở giao diện web React trực tiếp.
+Nếu repository sử dụng `amplify.yml`, nội dung phải tương đương build specification trên; không cần duy trì đồng thời hai nguồn cấu hình khác nhau.
+
+## 4. SPA rewrite và deploy
+
+Thêm rewrite `200` về `/index.html` cho các đường dẫn phía client, nhưng không rewrite file tĩnh như CSS, JS, PNG, SVG, font, map hoặc JSON. Sau đó chọn **Save and deploy** và kiểm tra branch URL của `staging`.
+
+> CloudFront distribution phía sau Amplify là thành phần do dịch vụ quản lý và không phải CloudFront distribution dành cho processed S3 bucket. Storage stack của dự án vẫn đang tắt CloudFront riêng.

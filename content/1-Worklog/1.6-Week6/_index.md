@@ -23,7 +23,7 @@ pre: " <b> 1.6. </b> "
 
 ### Week 6 Achievements:
 
-* Configured Target Groups, HTTP health checks, and launched an Application Load Balancer (ALB) in Public Subnets.
-* Created Launch Templates and deployed an Auto Scaling Group (ASG) behind the ALB across multiple AZs.
-* Set up a Target Tracking Scaling Policy to dynamically scale instance count targeting average CPU utilization.
-* Performed stress tests using Apache Bench (ab), verifying automated scale-out and scale-in metrics under CPU load.
+* Configured a Target Group and HTTP health check, then verified that the ALB routed requests only to healthy targets.
+* Created a Launch Template and an Auto Scaling Group behind the ALB across two Availability Zones.
+* Applied a CPU-based Target Tracking Scaling Policy and monitored changes in desired capacity.
+* Generated load with Apache Bench to observe scale-out, then continued monitoring until the ASG scaled in after demand dropped.

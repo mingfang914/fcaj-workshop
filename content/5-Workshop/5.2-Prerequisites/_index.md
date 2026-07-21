@@ -6,26 +6,53 @@ chapter: false
 pre: " <b> 5.2. </b> "
 ---
 
-# Workshop Prerequisites
+# Prerequisites
 
-Before beginning the setup of the **Smart Image Platform**, ensure has been completed the following steps:
+## 1. AWS account and permissions
 
-### 1. AWS Account
-* it is required to have an active **AWS Account**.
-* Your IAM user or role used to log in to the AWS Management Console must have administrative privileges (e.g., `AdministratorAccess` policy).
-* Ensure you know the target AWS Region (the default region for this project is `ap-southeast-1` - Singapore).
+- Do not use the root user for daily operations.
+- Prefer IAM Identity Center or an IAM role. An MFA-protected IAM user can be used in a personal sandbox account.
+- `AdministratorAccess` simplifies the workshop but is appropriate only for a sandbox. Real environments should use least-privilege permission sets or policies.
+- Workshop Region: `ap-southeast-1` (Singapore).
 
-![AWS Management Console Login](/images/5-Workshop/5.2-Prerequisites/IAM_Console.png)
+![IAM user in a sandbox account](/images/5-Workshop/5.2-Prerequisites/IAM_Console.png)
 
-### 2. Local Development Environment
-Make sure the following tools are installed on the local machine if if wishing to build or deploy programmatically:
-* **Node.js** (version 20 or higher)
-* **npm** (version 10 or higher)
-* **AWS CLI** (configured with credentials of the AWS Account using `aws configure`)
+> The screenshot shows an IAM user in a sandbox. Do not attach `AdministratorAccess` directly to production workload identities.
 
-### 3. GitHub Repository (For Frontend CI/CD)
-The client frontend application will be hosted on AWS Amplify, which uses continuous integration/continuous deployment (CI/CD) linked to GitHub.
-* Push the project code (`AWS-Project`) to a private or public **GitHub Repository**.
-* Make sure has been a **GitHub Personal Access Token (PAT)** or authorize AWS Amplify to access your GitHub account. If creating a PAT, ensure it has the `repo` and `admin:repo_hook` scopes enabled.
+## 2. Local development environment
 
-![GitHub Repository](/images/5-Workshop/5.2-Prerequisites/GitHub_Repo.png)
+Install and verify:
+
+```bash
+node --version
+npm --version
+aws --version
+cdk --version
+git --version
+```
+
+Current project requirements:
+
+- Node.js 20 or later for workspace builds; the CDK source currently declares the Node.js 20.x Lambda runtime and should be upgraded to a supported runtime before long-lived deployment.
+- AWS CLI configured with a profile or temporary credentials.
+- AWS CDK CLI v2.
+- Git and read access to the `AWS-Project` repository.
+
+Verify the AWS identity before deployment:
+
+```bash
+aws sts get-caller-identity
+```
+
+## 3. Repository and Amplify
+
+Amplify Console uses the GitHub App to connect a repository. Select the correct repository and the `staging` branch; no Personal Access Token screenshot is required.
+
+The current CDK code reads `GITHUB_REPO_URL`, `GITHUB_BRANCH`, and `GITHUB_TOKEN` from environment variables when creating the Amplify app. Never commit the token to Git or include it directly in documentation.
+
+## 4. Cost and scope
+
+- Use the `staging` environment for this workshop.
+- Monitor Billing and Budgets throughout the exercise.
+- WAF, log storage, Rekognition, NAT Gateway, and long-running resources can incur charges outside the Free Tier.
+- Do not deploy `production` before reviewing `RETAIN` removal policies.

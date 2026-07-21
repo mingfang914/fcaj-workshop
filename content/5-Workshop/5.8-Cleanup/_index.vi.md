@@ -1,82 +1,55 @@
 ---
 title: "Dọn dẹp tài nguyên"
 date: 2024-01-01
-weight: 8
+weight: 9
 chapter: false
-pre: " <b> 5.8. </b> "
----
-# Dọn dẹp tài nguyên sau khi kết thúc Lab
-
-Để tránh phát sinh các chi phí không mong muốn trên tài khoản AWS của người thực hiện sau khi hoàn thành bài thực hành, hãy thực hiện dọn dẹp các tài nguyên đã khởi tạo theo các phương pháp dưới đây.
-
+pre: " <b> 5.9. </b> "
 ---
 
-### Phương pháp A: Dọn dẹp thủ công bằng AWS Management Console
+# Dọn dẹp tài nguyên
 
-Thực hiện xóa các tài nguyên theo thứ tự ngược lại so với lúc tạo để tránh lỗi ràng buộc phụ thuộc (dependency barriers).
+Chỉ xóa tài nguyên của đúng tài khoản, Region và environment. Không chạy lệnh destroy production khi chưa kiểm tra dữ liệu cần giữ.
 
-#### Bước 1: Xóa ứng dụng AWS Amplify
-1. Mở [AWS Amplify Console](https://console.aws.amazon.com/amplify/).
-2. Chọn ứng dụng frontend (ví dụ `smart-image-frontend` hoặc tên project tương ứng).
-3. Chọn **Actions** -> **Delete app**.
-4. Nhập chữ `delete` để xác nhận xóa, sau đó chọn **Delete**.
+## A. Tài nguyên do CDK quản lý
 
-#### Bước 2: Xóa Amazon API Gateway
-1. Mở [API Gateway Console](https://console.aws.amazon.com/apigateway/).
-2. Tìm kiếm API tên là `SmartImage-API` trong danh sách APIs.
-3. Chọn API, chọn **Actions** -> **Delete**.
-4. Xác nhận xóa.
+Từ thư mục gốc `AWS-Project`, xác nhận danh sách stack của `staging`:
 
-#### Bước 3: Xóa các hàm AWS Lambda
-1. Mở [AWS Lambda Console](https://console.aws.amazon.com/lambda/).
-2. Tìm kiếm 3 hàm sau trong danh sách:
-   * `SmartImage-ApiHandler`
-   * `SmartImage-ImageProcessor`
-   * `SmartImage-AIAnalyzer`
-3. Tích chọn các hàm này, click **Actions** -> **Delete**.
-4. Xác nhận xóa.
+```bash
+npm run --workspace=infrastructure cdk -- list -c environment=staging
+```
 
-#### Bước 4: Xóa Amazon DynamoDB Tables
-1. Mở [Amazon DynamoDB Console](https://console.aws.amazon.com/dynamodb/).
-2. Bấm chọn mục **Tables** ở thanh menu bên trái.
-3. Tích chọn các bảng `SmartImage-Images`, `SmartImage-UserQuotas`, và `SmartImage-UserProfiles`.
-4. Chọn **Delete**.
-5. Nhập chữ `delete` để xác nhận xóa.
+Sau đó chạy:
 
-#### Bước 5: Xóa các Amazon S3 Buckets
-*Lưu ý: S3 bucket cần được làm rỗng dữ liệu (Empty) trước khi có thể xóa hoàn toàn.*
-1. Mở [Amazon S3 Console](https://s3.console.aws.amazon.com/).
-2. Chọn bucket thô `smartimage-raw-bucket-<ten-cua-ban>`.
-3. Chọn nút **Empty** và thực hiện theo hướng dẫn hiển thị để xóa toàn bộ các đối tượng bên trong bucket.
-4. Sau khi bucket đã rỗng, quay lại chọn bucket đó, nhấn **Delete**, nhập tên bucket để xác nhận xóa hoàn toàn.
-5. Thực hiện các bước tương tự đối với bucket kết quả `smartimage-processed-bucket-<ten-cua-ban>`.
+```bash
+npm run --workspace=infrastructure destroy -- -c environment=staging
+```
 
-#### Bước 6: Xóa Amazon Cognito User Pool
-1. Mở [Amazon Cognito Console](https://console.aws.amazon.com/cognito/).
-2. Chọn User Pool `SmartImage-UserPool`.
-3. Bấm **Delete**.
-4. Điền tên User Pool để xác nhận và thực hiện xóa.
+Trong `staging`, hai S3 bucket được cấu hình `autoDeleteObjects` và `DESTROY`; CDK có thể làm rỗng/xóa bucket trong quá trình destroy. Không cần làm rỗng thủ công trước trừ khi deployment đã bị thay đổi hoặc custom resource lỗi.
 
-#### Bước 7: Xóa các IAM Roles & Policies
-1. Mở [IAM Console](https://console.aws.amazon.com/iam/).
-2. Chọn mục **Roles**, tìm kiếm từ khóa `SmartImage-` để hiển thị các Lambda execution roles đã tạo, tích chọn và bấm **Delete**.
-3. Chọn mục **Policies**, tìm kiếm từ khóa `SmartImage-`, chọn các policy tùy chỉnh tương ứng và bấm **Delete**.
+Sau khi destroy, kiểm tra CloudFormation và các dịch vụ liên quan để xác nhận sáu stack đã được xóa.
 
-#### Bước 8: Xóa Dashboards, Alarms & SNS Topics của CloudWatch
-1. Mở [Amazon CloudWatch Console](https://console.aws.amazon.com/cloudwatch/).
-2. Bấm vào **Dashboards** ở menu trái, tích chọn dashboard `SmartImage-dev-Operations`, và bấm **Delete**.
-3. Chọn **Alarms** -> **All alarms**, tích chọn các cảnh báo bắt đầu bằng `SmartImage-dev-` và bấm **Delete**.
-4. Mở [Amazon SNS Console](https://console.aws.amazon.com/sns/).
-5. Bấm vào **Topics**, chọn topic `SmartImage-Alarms-dev` và bấm **Delete**.
+## B. Tài nguyên tạo thủ công trên Console
 
----
+`cdk destroy` không xóa tài nguyên được tạo riêng trên Console. Xóa theo thứ tự để giảm lỗi dependency:
 
-### Phương pháp B: Xóa tự động bằng Infrastructure-as-Code (AWS CDK)
+1. Amplify app/branch.
+2. WAF association, sau đó Web ACL.
+3. API Gateway stage/API và API access log group.
+4. S3 Event Notification, DynamoDB event source mapping và Lambda triggers.
+5. Lambda functions và các log groups liên quan.
+6. Hai SQS DLQ.
+7. DynamoDB tables sau khi kiểm tra backup/PITR requirements.
+8. Làm rỗng và xóa raw/processed buckets, bao gồm object versions nếu versioning đã bật.
+9. Cognito app client, groups và User Pool.
+10. CloudWatch dashboard, alarms, SNS subscriptions/topic.
+11. IAM roles và custom policies chỉ được tạo cho workshop.
 
-Nếu đã triển khai hệ thống thông qua bộ công cụ phát triển phần mềm AWS CDK:
-1. **Làm rỗng S3 Buckets:** người thực hiện vẫn phải vào S3 Console để làm rỗng (Empty) hai bucket raw và processed bằng tay trước (vì AWS không cho phép CloudFormation tự động xóa các bucket đang có chứa file trừ khi được cấu hình force-delete đặc biệt).
-2. **Chạy lệnh CDK Destroy:** Tại terminal của môi trường máy phát triển local, di chuyển tới thư mục gốc dự án CDK và chạy lệnh:
-   ```bash
-   cdk destroy --all
-   ```
-3. Nhập `y` (yes) để xác nhận. Lệnh này sẽ tự động thu hồi và xóa sạch API Gateway, Lambda, Cognito User Pool, IAM roles/policies, hàng đợi SQS DLQ, cùng toàn bộ Dashboards và Alarms chỉ trong một lệnh duy nhất.
+## C. Kiểm tra sau cleanup
+
+- Kiểm tra lại Region `ap-southeast-1` và các Region khác đã sử dụng.
+- Tìm resource có prefix/tag `SmartImage` và environment `staging`.
+- Kiểm tra CloudFormation stacks ở trạng thái `DELETE_FAILED`.
+- Kiểm tra S3 object versions, CloudWatch Logs, SQS, SNS, WAF và Amplify.
+- Theo dõi Billing/Cost Explorer trong những ngày tiếp theo vì dữ liệu chi phí có độ trễ.
+
+> Production dùng `RETAIN` cho một số bucket, bảng và User Pool. `cdk destroy` không xóa các tài nguyên được giữ lại. Không khẳng định chi phí bằng 0 cho đến khi Billing xác nhận và không còn tài nguyên ngoài stack.

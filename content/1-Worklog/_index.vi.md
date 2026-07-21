@@ -12,7 +12,7 @@ Công việc của các tuần được phân bổ cụ thể như sau:
 
 **Tuần 1:** [Làm quen với chương trình thực tập ở FCAJ](1.1-Week1/) (17/04/2026 - 19/04/2026)
 
-**Tuần 2:** [Tạo tài khoản AWS, nhận $100, làm 5 bài lab để lấy thêm $100. Tìm hiểu và thực hành về quản lý định danh (AWS IAM & MFA)](1.2-Week2/) (20/04/2026 - 26/04/2026)
+**Tuần 2:** [Thiết lập tài khoản AWS, kiểm soát chi phí và thực hành quản lý định danh (AWS IAM & MFA)](1.2-Week2/) (20/04/2026 - 26/04/2026)
 
 **Tuần 3:** [Tìm hiểu và thực hành lưu trữ đối tượng & mạng phân phối (S3 & CloudFront)](1.3-Week3/) (27/04/2026 - 03/05/2026)
 
@@ -26,7 +26,7 @@ Công việc của các tuần được phân bổ cụ thể như sau:
 
 **Tuần 8:** [Khái niệm Serverless cơ bản (AWS Lambda, S3 Event Notification, API Gateway)](1.8-Week8/) (01/06/2026 - 07/06/2026)
 
-**Tuần 9:** [Dự án chính thức: Phân tích kiến trúc & Thiết kế Single-Table cho DynamoDB](1.9-Week9/) (08/06/2026 - 14/06/2026)
+**Tuần 9:** [Dự án chính thức: Phân tích kiến trúc và thiết kế dữ liệu DynamoDB theo access pattern](1.9-Week9/) (08/06/2026 - 14/06/2026)
 
 **Tuần 10:** [Dự án chính thức: Xác thực người dùng (Cognito) & Thiết lập chính sách bảo mật IAM](1.10-Week10/) (15/06/2026 - 21/06/2026)
 

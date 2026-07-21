@@ -8,23 +8,23 @@ pre: " <b> 1.11. </b> "
 
 ### Week 11 Objectives:
 
-* Deploy backend code packages to the three Lambda functions using optimized runtimes.
+* Deploy three business Lambda functions through AWS CDK and inspect each function's runtime, architecture, memory, and timeout settings.
 * Wire storage notifications and database streams to trigger serverless executions automatically.
 * Configure API Gateway REST APIs secured via Cognito Authorizers.
 
 ### Tasks to be carried out this week:
 | Day | Task | Start Date | Completion Date | Reference Material |
 | --- | --- | --- | --- | --- |
-| 2 | Deploy Lambda functions (`ApiHandler`, `ImageProcessor`, `AIAnalyzer`) using Node.js 22.x runtime, ARM64 architecture, and attach execution roles. | 06/22/2026 | 06/22/2026 |  |
-| 3 - 5 | Zip and upload deployment packages (including sharp for image resizing and AWS SDK modules), and configure environment variables connecting to tables and S3 buckets. | 06/23/2026 | 06/25/2026 |  |
-| 5 | Configure S3 Event Notifications to trigger `ImageProcessor` (prefix filter: `users/`) and enable DynamoDB stream triggers for `AIAnalyzer` (batch size: 1). | 06/25/2026 | 06/25/2026 |  |
-| 6 | Create REST API `SmartImage-API` in API Gateway and configure the Cognito Authorizer. | 06/26/2026 | 06/26/2026 |  |
-| 6 | Practice: Create proxy resource `{proxy+}` with CORS, configure ANY method integration to `ApiHandler` via proxy, and deploy to stage `dev`. | 06/26/2026 | 06/26/2026 |  |
+| 2 | Declare `ApiHandler`, `ImageProcessor`, and `AIAnalyzer` in CDK on ARM64; inspect the memory, timeout, temporary storage, and execution role settings for each function. | 06/22/2026 | 06/22/2026 | `infrastructure/lib/stacks/api-stack.ts` |
+| 3 - 5 | Bundle TypeScript through the `NodejsFunction` esbuild workflow; package Sharp for Linux ARM64 and configure all S3/DynamoDB environment variables. | 06/23/2026 | 06/25/2026 | API stack and backend handlers |
+| 5 | Configure an S3 Event Notification for `ImageProcessor` with the `users/` prefix; configure the `AIAnalyzer` DynamoDB Stream source with batch size 10, three retries, and an SQS DLQ. | 06/25/2026 | 06/25/2026 | `infrastructure/lib/stacks/api-stack.ts` |
+| 6 | Declare the REST API and Cognito User Pool Authorizer in CDK; inspect public and authenticated endpoints after deployment. | 06/26/2026 | 06/26/2026 | `infrastructure/lib/stacks/api-stack.ts` |
+| 6 | Create explicit resources and methods under `/v1/profile`, `/v1/images`, and `/v1/admin/...`; configure CORS and deploy the environment stage. | 06/26/2026 | 06/26/2026 | API stack and API handler router |
 
 ### Week 11 Achievements:
 
-* Deployed and validated three serverless Lambda functions on the ARM64 architecture, decreasing execution latencies and lowering resource costs.
-* Configured S3 Event Notifications targeting the `users/` prefix to invoke `ImageProcessor`, automating image compression and thumbnail creation via Sharp.
-* Enabled DynamoDB Streams with New Image view type to trigger `AIAnalyzer`, integrating Amazon Rekognition for automated tagging and content moderation.
-* Built a REST API on API Gateway with a wildcard `{proxy+}` resource and `ANY` method linked to the `ApiHandler` using Lambda Proxy Integration with CORS enabled.
-* Integrated a Cognito Authorizer (`CognitoAuth`) to secure the API Gateway endpoints, rejecting requests without valid ID tokens.
+* Deployed three business Lambda functions on ARM64 through CDK. No dedicated benchmark was run, so no quantitative latency or cost-saving claim was recorded.
+* Triggered `ImageProcessor` from the raw bucket and bundled Sharp for Linux ARM64 before writing output to the processed bucket.
+* Configured `AIAnalyzer` with DynamoDB Stream batch size 10, a maximum of three retries, and an SQS on-failure destination. The function requires `RAW_BUCKET_NAME` in addition to the other table and bucket variables.
+* Used explicitly declared API Gateway resources and methods rather than `{proxy+}`/`ANY`. `/v1/images/public` is public; the remaining routes use the Cognito User Pool Authorizer where configured.
+* The API stack currently declares Node.js 20.x. Upgrading it to Node.js 22.x remains required for alignment with supported runtimes in 2026; the worklog does not report Node.js 22.x as deployed until the source is updated.

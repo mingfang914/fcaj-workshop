@@ -23,7 +23,7 @@ pre: " <b> 1.6. </b> "
 
 ### Kết quả đạt được tuần 6:
 
-* Cấu hình Target Groups, HTTP health checks và khởi tạo Application Load Balancer (ALB) trong Public Subnets.
-* Thiết lập Launch Templates và cấu hình Auto Scaling Group (ASG) đứng sau ALB trên nhiều AZs.
-* Cấu hình Target Tracking Scaling Policy tự động thêm/bớt instance dựa trên chỉ số CPU sử dụng trung bình.
-* Chạy kiểm thử tải bằng công cụ Apache Bench (ab) để kiểm tra hoạt động co giãn tự động (scale-out/scale-in) của ASG.
+* Cấu hình Target Group và HTTP health check, sau đó xác nhận ALB chỉ chuyển request đến các target ở trạng thái healthy.
+* Tạo Launch Template và Auto Scaling Group đứng sau ALB trên hai Availability Zones.
+* Áp dụng Target Tracking Scaling Policy theo CPU trung bình và theo dõi thay đổi desired capacity.
+* Tạo tải bằng Apache Bench để quan sát scale-out; tiếp tục theo dõi đến khi tải giảm và ASG thực hiện scale-in.

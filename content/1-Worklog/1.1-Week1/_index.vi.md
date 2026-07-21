@@ -8,15 +8,15 @@ pre: " <b> 1.1. </b> "
 
 ### Mục tiêu tuần 1:
 
-* Kết nối, làm quen với các thành viên trong First Cloud AI Journey.
-* Hiểu dịch vụ AWS cơ bản, cách chia nhóm làm việc cũng như tổng quát về chương trình thực tập.
+* Làm quen với chương trình First Cloud AI Journey và các thành viên tham gia.
+* Nắm phạm vi chương trình, cách tổ chức công việc nhóm và lộ trình học AWS.
 
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
 | --- | --- | --- | --- | --- |
-| 6 | Tham gia buổi Kickoff chương trình AWS First Cloud AI Journey: Tìm hiểu các quy định, văn hóa làm việc và kết nối, làm quen với các thành viên trong đội ngũ mentor của FCAJ. Hiểu về dịch vụ AWS. Nghe các quy định về dự án cũng như cách làm việc theo nhóm. | 17/04/2026 | 17/04/2026 | Chương trình FCAJ |
+| 6 | Tham gia buổi kickoff của AWS First Cloud AI Journey; ghi nhận quy định, thời gian biểu, yêu cầu dự án, cách phân công nhóm và kênh trao đổi với mentor. | 17/04/2026 | 17/04/2026 | Chương trình FCAJ |
 
 ### Kết quả đạt được tuần 1:
 
-* Tham gia buổi gặp gỡ kickoff, nắm rõ định hướng, nội quy, thời gian biểu và cách thức phân phối công việc nhóm trong chương trình thực tập.
-* Tìm hiểu cấu trúc và tổng quan các dịch vụ cốt lõi trên AWS Cloud.
+* Hoàn thành buổi kickoff và tổng hợp các mốc công việc của chương trình.
+* Xác định nhóm dịch vụ cần học trước khi triển khai dự án: IAM, S3, VPC, RDS, DynamoDB, CloudWatch, Lambda và API Gateway.

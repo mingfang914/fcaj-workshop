@@ -9,19 +9,20 @@ pre: " <b> 1.9. </b> "
 ### Week 9 Objectives:
 
 * Kick off the official Smart Image Platform project.
-* Design the DynamoDB Single-Table schema to optimize performance and indexing costs.
+* Define access patterns and design DynamoDB data storage for image metadata, quotas, and user profiles.
 
 ### Tasks to be carried out this week:
 | Day | Task | Start Date | Completion Date | Reference Material |
 | --- | --- | --- | --- | --- |
-| 2 | Analyze the Smart Image Platform requirements and compile the serverless solution architecture diagram. | 06/08/2026 | 06/08/2026 |  |
-| 3 - 4 | Design the DynamoDB Single-Table schema (Composite keys: PK = USER#<id>, SK = IMG#<timestamp>#<ulid>) for optimal queries. | 06/09/2026 | 06/10/2026 |  |
-| 4 | Create S3 raw and processed buckets on the console with Block All Public Access enabled. | 06/10/2026 | 06/10/2026 |  |
-| 5 | Provision the main DynamoDB tables: SmartImage-Images, SmartImage-UserQuotas, and SmartImage-UserProfiles in On-demand capacity mode. | 06/11/2026 | 06/11/2026 |  |
-| 5 - 6 | Practice: Configure GSIs (GSI1-TagIndex-v2, GSI2-ModerationIndex) with projected attributes to optimize query read capacity. | 06/11/2026 | 06/12/2026 |  |
+| 2 | Analyze the Smart Image Platform requirements, identify the upload, processing, analysis, and query flows, and update the serverless architecture diagram. | 06/08/2026 | 06/08/2026 | `AWS-Project` source and project documentation |
+| 3 - 4 | Design the `Images` table composite key (`PK = USER#<id>`, `SK = IMG#<timestamp>#<ulid>`) from the application's access patterns. | 06/09/2026 | 06/10/2026 | `infrastructure/lib/stacks/database-stack.ts` |
+| 4 | Declare raw and processed buckets in CDK with Block Public Access and SSE-S3 encryption enabled. | 06/10/2026 | 06/10/2026 | `infrastructure/lib/stacks/storage-stack.ts` |
+| 5 | Declare the `Images`, `UserQuotas`, and `UserProfiles` DynamoDB tables in On-demand mode with environment-specific names. | 06/11/2026 | 06/11/2026 | `infrastructure/lib/stacks/database-stack.ts` |
+| 5 - 6 | Configure `GSI1-TagIndex-v2` for tag searches and `GSI2-ModerationIndex` for the moderation queue. | 06/11/2026 | 06/12/2026 | `infrastructure/lib/stacks/database-stack.ts` |
 
 ### Week 9 Achievements:
 
-* Successfully provisioned two S3 buckets (`smartimage-raw-bucket` and `smartimage-processed-bucket`) with Block All Public Access enabled, utilizing secure S3 Presigned URLs for client-side uploads.
-* Designed the DynamoDB Single-Table composite schema integrating user profiles, quotas, and image metadata across three key tables: `SmartImage-Images`, `SmartImage-UserQuotas`, and `SmartImage-UserProfiles`.
-* Configured Global Secondary Indexes `GSI1-TagIndex-v2` and `GSI2-ModerationIndex` with custom attribute projections in On-demand capacity mode to support tag-based and moderation-status queries.
+* Provisioned two private S3 buckets through CDK. The client uploads through presigned URLs; the application currently returns S3 presigned URLs for reads because CloudFront is not enabled.
+* Used three DynamoDB tables: `Images`, `UserQuotas`, and `UserProfiles`. Only `Images` applies a single-table pattern to image metadata and related records; quotas and profiles remain separate by responsibility.
+* Added the `staging` or `production` suffix to table names. CDK adds a unique component to physical S3 bucket names.
+* Checked both GSI access patterns: searching images by tag and listing images awaiting moderation.
