@@ -27,22 +27,20 @@ The backend infrastructure is defined with AWS CDK so that configuration can be 
 
 The following diagram shows the core processing flow. Supporting components such as the SQS dead-letter queue, CloudWatch, X-Ray, and SNS are omitted to keep it readable.
 
-![Smart Image Platform Architecture](/images/2-Proposal/platform_architecture.jpeg)
+![Smart Image Platform Architecture](/images/2-Proposal/image.png)
 
 * **Processing flow:**
 
   1. Users access the React application deployed with **AWS Amplify Hosting**.
   2. The application uses an **Amazon Cognito User Pool** for registration, email verification, and sign-in. After successful authentication, the client receives JSON Web Tokens for API requests.
-  3. The client sends a request with its token to **Amazon API Gateway**. **AWS WAF** evaluates the request before it reaches the API, and the API Gateway Cognito authorizer verifies the token before Lambda can be invoked.
-  4. The **API Handler Lambda** implements CRUD operations, profile management, and search. For an image upload, it creates an S3 presigned PUT URL and an initial image record in **DynamoDB**.
-  5. The browser uses the presigned URL to upload the image directly to the **raw S3 bucket**, without sending the file through the API Handler.
-  6. An `ObjectCreated` event in the raw bucket invokes the **Image Processor Lambda**. A dead-letter queue retains asynchronous events that still fail after the configured retry attempts.
-  7. The Image Processor reads the image, extracts metadata, and creates thumbnail and resized variants with Sharp. It stores the results in the **processed S3 bucket** and updates the image record in DynamoDB.
-  8. **DynamoDB Streams** delivers the table change to the **AI Analyzer Lambda**.
-  9. The AI Analyzer calls **Amazon Rekognition** for label detection and content moderation, then writes the results back to the image table.
-  10. When an image is displayed or downloaded, the API Handler creates a time-limited **S3 presigned GET URL** for the private object. CloudFront for the processed bucket is an optional future enhancement and is not enabled in the current Storage stack.
-  11. The system uses three DynamoDB tables for images, user profiles, and user quotas. CloudWatch Logs, metrics, alarms, X-Ray, and SNS provide observability and notifications.
-
+  3. The client sends a request with the token to **Amazon API Gateway**. **AWS WAF** inspects the request before it reaches the API; API Gateway's Cognito Authorizer verifies the token before allowing the Lambda invocation.<br> 3.1. **Amazon API Gateway** passes the Token to **Amazon Cognito Authorizer** to validate the user's token and permissions before processing the request.
+  4. 4.a. Upon successful verification, **Amazon API Gateway** invokes the **AWS Lambda (Presigned URL Generator)** function. <br> 4.b. **AWS Lambda (Presigned URL Generator)** initializes an initial data record in **DynamoDB**, generates a secure, time-limited S3 Presigned URL, and returns it to the Client via **API Gateway**.
+  5. **Amazon Amplify** uses the received Presigned URL to upload the raw image file directly from the device to the **S3 Bucket** storage.
+  6. The successful image upload event on **S3 Bucket** automatically triggers the **AWS Lambda (Image processor Lambda)** function.
+  7. 7.a. **AWS Lambda (Image processor Lambda)** performs basic image processing tasks (such as compression, resizing) and saves the processed image into the **processed S3 Bucket**. <br> 7.b. Simultaneously, the **AWS Lambda (Image processor Lambda)** updates the image processing status in the **DynamoDB** database.
+  8. Data modification events in **DynamoDB** trigger the **AWS Lambda (AI Analyzer Lambda)** function to initiate the advanced image analysis workflow.
+  9. **AWS Lambda (AI Analyzer Lambda)** invokes the **Amazon Rekognition** API to extract labels, objects, and facial recognition data, then saves all analyzed data (Metadata) back into **DynamoDB**.
+  
 ### 4. Technical Implementation
 
 * **Implementation phases:**
