@@ -27,7 +27,7 @@ Toàn bộ hạ tầng backend được định nghĩa bằng AWS CDK, giúp c�
 
 Sơ đồ dưới đây mô tả luồng xử lý cốt lõi. Để giữ sơ đồ dễ đọc, các thành phần hỗ trợ như SQS dead-letter queue, CloudWatch, X-Ray và SNS không được thể hiện đầy đủ.
 
-![Smart Image Platform Architecture](/images/2-Proposal/image.png)
+![Smart Image Platform Architecture](/images/2-Proposal/platform_architecture.jpeg)
 
 * **Luồng xử lý:**
 

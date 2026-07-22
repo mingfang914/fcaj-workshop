@@ -27,7 +27,7 @@ The backend infrastructure is defined with AWS CDK so that configuration can be 
 
 The following diagram shows the core processing flow. Supporting components such as the SQS dead-letter queue, CloudWatch, X-Ray, and SNS are omitted to keep it readable.
 
-![Smart Image Platform Architecture](/images/2-Proposal/image.png)
+![Smart Image Platform Architecture](/images/2-Proposal/platform_architecture.jpeg)
 
 * **Processing flow:**
 
