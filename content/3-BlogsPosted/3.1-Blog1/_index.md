@@ -8,8 +8,6 @@ pre: " <b> 3.1. </b> "
 
 # EFFICIENT IMAGE OPTIMIZATION WITH AMAZON CLOUDFRONT AND AWS LAMBDA (08/07/2026)
 
-![photographic evidence](/images/3-BlogsPosted/blog1a.png)
-
 Images are often the heaviest resources on modern websites. Loading large images not only slows down page load times but also directly affects user experience and SEO rankings, especially Google's Largest Contentful Paint (LCP) metric.
 
 To address this challenge, AWS introduced a serverless image optimization solution combining Amazon CloudFront, AWS Lambda, and Amazon S3. This architecture enables automatic image processing on-the-fly while minimizing distribution and storage costs.
@@ -36,5 +34,6 @@ Instead of manually creating and storing multiple resized versions of each image
 ![Image Optimization Architecture](/images/3-BlogsPosted/blog1.png)
 
 ### Facebook Post & References
+![photographic evidence](/images/3-BlogsPosted/blog1a.png)
 * **Original Blog Post on Facebook:** [AWS Study Group Post #2206231570141803](https://www.facebook.com/groups/awsstudygroupfcj/permalink/2206231570141803/)
 * **Official AWS Blog Reference:** [Image Optimization using Amazon CloudFront and AWS Lambda](https://aws.amazon.com/blogs/networking-and-content-delivery/image-optimization-using-amazon-cloudfront-and-aws-lambda/)

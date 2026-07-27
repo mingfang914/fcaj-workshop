@@ -8,8 +8,6 @@ pre: " <b> 3.1. </b> "
 
 # TỐI ƯU HÓA HÌNH ẢNH HIỆU QUẢ VỚI AMAZON CLOUDFRONT VÀ AWS LAMBDA (08/07/2026)
 
-![Minh chứng hình ảnh](/images/3-BlogsPosted/blog1a.png)
-
 Hình ảnh thường là yếu tố nặng nhất trên các trang web hiện đại. Việc tải ảnh dung lượng lớn không chỉ làm chậm tốc độ tải trang mà còn ảnh hưởng trực tiếp đến trải nghiệm người dùng và điểm số SEO, đặc biệt là chỉ số Largest Contentful Paint (LCP) của Google.
 
 Để giải quyết vấn đề này, bài viết "Image Optimization using Amazon CloudFront and AWS Lambda" trên trang blog của AWS đã giới thiệu một giải pháp serverless hiệu quả để xử lý ảnh tự động và tối ưu hóa chi phí phân phối.
@@ -36,5 +34,6 @@ Thay vì phải tạo thủ công và lưu trữ hàng loạt phiên bản ảnh
 ![Sơ đồ tối ưu hóa hình ảnh](/images/3-BlogsPosted/blog1.png)
 
 ### Facebook Post & Tài liệu tham khảo
+![Minh chứng hình ảnh](/images/3-BlogsPosted/blog1a.png)
 * **Bài đăng gốc trên Facebook:** [AWS Study Group Post #2206231570141803](https://www.facebook.com/groups/awsstudygroupfcj/permalink/2206231570141803/)
 * **Bài viết chi tiết của AWS:** [Image Optimization using Amazon CloudFront and AWS Lambda](https://aws.amazon.com/blogs/networking-and-content-delivery/image-optimization-using-amazon-cloudfront-and-aws-lambda/)

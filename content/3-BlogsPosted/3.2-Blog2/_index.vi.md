@@ -8,8 +8,6 @@ pre: " <b> 3.2. </b> "
 
 # GIẢI PHÁP XỬ LÝ HÌNH ẢNH DYNAMIC TRÊN AWS VỚI AMAZON SAGEMAKER VÀ AMAZON BEDROCK (09/07/2026)
 
-![Minh chứng hình ảnh](/images/3-BlogsPosted/blog2a.png)
-
 Việc ứng dụng Generative AI để xây dựng các công cụ hỗ trợ sáng tạo (creative assisting tools) đòi hỏi việc giải quyết đồng thời hai bài toán: lựa chọn mô hình học máy phù hợp và tối ưu hóa hạ tầng tính toán (inference infrastructure) để giảm thiểu chi phí vận hành.
 
 Chuỗi bài viết này gồm hai phần trên trang blog của AWS đã trình bày chi tiết giải pháp xây dựng công cụ chỉnh sửa ảnh thông minh (Inpaint Eraser) kết hợp kỹ thuật Text-Guided Inpainting và Outpainting thông qua dịch vụ Amazon SageMaker và Amazon Bedrock.
@@ -66,6 +64,7 @@ Giải pháp lai (hybrid architecture) này thể hiện một hướng đi tố
 2. **Amazon Bedrock API:** Triệu gọi trực tiếp các mô hình tạo ảnh lớn, phức tạp (SDXL, Titan Image Generator) mà không phải chịu chi phí duy trì tài nguyên hạ tầng đắt đỏ lúc hệ thống không hoạt động.
 
 ### Facebook Post & Tài liệu tham khảo
+![Minh chứng hình ảnh](/images/3-BlogsPosted/blog2a.png)
 * **Bài đăng gốc trên Facebook:** [AWS Study Group Post #2207155823382711](https://www.facebook.com/groups/awsstudygroupfcj/permalink/2207155823382711/)
 * **Đường link tài liệu chính thức từ AWS:**
   * **Phần 1 (SageMaker, SAM, LaMa):** [Generative AI assists creative content with Inpaint Eraser and Amazon SageMaker](https://aws.amazon.com/blogs/media/generative-ai-assists-creative-content-with-inpaint-eraser-and-amazon-sagemaker/)

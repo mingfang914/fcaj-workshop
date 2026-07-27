@@ -8,8 +8,6 @@ pre: " <b> 3.3. </b> "
 
 # WHY YOU SHOULD NOT OPEN SSH PORT 22 FOR EC2? EXPLORING AWS SYSTEMS MANAGER SESSION MANAGER (07/07/2026)
 
-![photographic evidence](/images/3-BlogsPosted/blog3a.png)
-
 When first learning AWS, many developers access their EC2 instances by opening port 22 in their Security Group, creating an SSH key pair, and then SSH-ing directly into the server.
 
 While this approach is familiar and functional, it introduces several limitations and risks in a production environment:
@@ -55,6 +53,7 @@ In the cloud, security is not just about strong passwords or firewalls; sometime
 ![AWS Systems Manager Session Manager Architecture](/images/3-BlogsPosted/blog3.png)
 
 ### Facebook Post & References
+![photographic evidence](/images/3-BlogsPosted/blog3a.png)
 * **Original Blog Post on Facebook:** [AWS Study Group Post #2207318586699768](https://www.facebook.com/groups/awsstudygroupfcj/permalink/2207318586699768/)
 * **Official References:**
   1. [What is AWS Systems Manager?](https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html)

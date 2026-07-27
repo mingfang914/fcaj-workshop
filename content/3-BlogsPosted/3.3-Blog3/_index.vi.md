@@ -8,8 +8,6 @@ pre: " <b> 3.3. </b> "
 
 # VÌ SAO KHÔNG NÊN MỞ SSH PORT 22 CHO EC2? TÌM HIỂU AWS SYSTEMS MANAGER SESSION MANAGER (07/07/2026)
 
-![Minh chứng hình ảnh](/images/3-BlogsPosted/blog3a.png)
-
 Khi mới học AWS, nhiều người thường truy cập EC2 bằng cách mở port 22 trong Security Group, tạo SSH key pair rồi SSH trực tiếp vào server.
 
 Cách này quen thuộc và vẫn dùng được, nhưng trong môi trường production nó có một số hạn chế và rủi ro:
@@ -55,6 +53,7 @@ Trong cloud, bảo mật không chỉ là cấu hình tường lửa hay dùng k
 ![Sơ đồ hoạt động Systems Manager Session Manager](/images/3-BlogsPosted/blog3.png)
 
 ### Facebook Post & Tài liệu tham khảo
+![Minh chứng hình ảnh](/images/3-BlogsPosted/blog3a.png)
 * **Bài đăng gốc trên Facebook:** [AWS Study Group Post #2207318586699768](https://www.facebook.com/groups/awsstudygroupfcj/permalink/2207318586699768/)
 * **Link tham khảo:**
   1. [What is AWS Systems Manager?](https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html)
