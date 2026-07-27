@@ -6,7 +6,9 @@ chapter: false
 pre: " <b> 3.2. </b> "
 ---
 
-# GIẢI PHÁP XỬ LÝ HÌNH ẢNH DYNAMIC TRÊN AWS VỚI AMAZON SAGEMAKER VÀ AMAZON BEDROCK
+# GIẢI PHÁP XỬ LÝ HÌNH ẢNH DYNAMIC TRÊN AWS VỚI AMAZON SAGEMAKER VÀ AMAZON BEDROCK (09/07/2026)
+
+![Minh chứng hình ảnh](/images/3-BlogsPosted/blog2a.png)
 
 Việc ứng dụng Generative AI để xây dựng các công cụ hỗ trợ sáng tạo (creative assisting tools) đòi hỏi việc giải quyết đồng thời hai bài toán: lựa chọn mô hình học máy phù hợp và tối ưu hóa hạ tầng tính toán (inference infrastructure) để giảm thiểu chi phí vận hành.
 

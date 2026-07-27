@@ -6,7 +6,9 @@ chapter: false
 pre: " <b> 3.3. </b> "
 ---
 
-# WHY YOU SHOULD NOT OPEN SSH PORT 22 FOR EC2? EXPLORING AWS SYSTEMS MANAGER SESSION MANAGER
+# WHY YOU SHOULD NOT OPEN SSH PORT 22 FOR EC2? EXPLORING AWS SYSTEMS MANAGER SESSION MANAGER (07/07/2026)
+
+![photographic evidence](/images/3-BlogsPosted/blog3a.png)
 
 When first learning AWS, many developers access their EC2 instances by opening port 22 in their Security Group, creating an SSH key pair, and then SSH-ing directly into the server.
 

@@ -6,7 +6,9 @@ chapter: false
 pre: " <b> 3.3. </b> "
 ---
 
-# VÌ SAO KHÔNG NÊN MỞ SSH PORT 22 CHO EC2? TÌM HIỂU AWS SYSTEMS MANAGER SESSION MANAGER
+# VÌ SAO KHÔNG NÊN MỞ SSH PORT 22 CHO EC2? TÌM HIỂU AWS SYSTEMS MANAGER SESSION MANAGER (07/07/2026)
+
+![Minh chứng hình ảnh](/images/3-BlogsPosted/blog3a.png)
 
 Khi mới học AWS, nhiều người thường truy cập EC2 bằng cách mở port 22 trong Security Group, tạo SSH key pair rồi SSH trực tiếp vào server.
 

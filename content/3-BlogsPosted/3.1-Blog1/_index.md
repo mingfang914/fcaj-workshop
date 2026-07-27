@@ -6,7 +6,9 @@ chapter: false
 pre: " <b> 3.1. </b> "
 ---
 
-# EFFICIENT IMAGE OPTIMIZATION WITH AMAZON CLOUDFRONT AND AWS LAMBDA
+# EFFICIENT IMAGE OPTIMIZATION WITH AMAZON CLOUDFRONT AND AWS LAMBDA (08/07/2026)
+
+![photographic evidence](/images/3-BlogsPosted/blog1a.png)
 
 Images are often the heaviest resources on modern websites. Loading large images not only slows down page load times but also directly affects user experience and SEO rankings, especially Google's Largest Contentful Paint (LCP) metric.
 

@@ -6,7 +6,9 @@ chapter: false
 pre: " <b> 3.2. </b> "
 ---
 
-# DYNAMIC IMAGE PROCESSING ON AWS WITH AMAZON SAGEMAKER AND AMAZON BEDROCK
+# DYNAMIC IMAGE PROCESSING ON AWS WITH AMAZON SAGEMAKER AND AMAZON BEDROCK (09/07/2026)
+
+![photographic evidence](/images/3-BlogsPosted/blog2a.png)
 
 Leveraging Generative AI to build creative assisting tools requires addressing two key challenges: selecting the appropriate machine learning models and optimizing the inference infrastructure to minimize operational costs. 
 

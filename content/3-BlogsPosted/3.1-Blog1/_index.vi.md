@@ -6,7 +6,9 @@ chapter: false
 pre: " <b> 3.1. </b> "
 ---
 
-# TỐI ƯU HÓA HÌNH ẢNH HIỆU QUẢ VỚI AMAZON CLOUDFRONT VÀ AWS LAMBDA
+# TỐI ƯU HÓA HÌNH ẢNH HIỆU QUẢ VỚI AMAZON CLOUDFRONT VÀ AWS LAMBDA (08/07/2026)
+
+![Minh chứng hình ảnh](/images/3-BlogsPosted/blog1a.png)
 
 Hình ảnh thường là yếu tố nặng nhất trên các trang web hiện đại. Việc tải ảnh dung lượng lớn không chỉ làm chậm tốc độ tải trang mà còn ảnh hưởng trực tiếp đến trải nghiệm người dùng và điểm số SEO, đặc biệt là chỉ số Largest Contentful Paint (LCP) của Google.
 
